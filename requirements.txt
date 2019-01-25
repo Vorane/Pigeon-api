@@ -1,2 +1,5 @@
 Django==2.1.5
 pytz==2018.9
+Django==2.1.5
+django-colorfield==0.1.15
+pytz==2018.9

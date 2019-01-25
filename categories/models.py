@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+from colorfield.fields import ColorField
 from django.db import models
 from commons.models import BaseModel
+from commons.utils import get_image_path
 
 # Create your models here.
 class Category(BaseModel):
