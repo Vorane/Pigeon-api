@@ -3,21 +3,26 @@ from __future__ import unicode_literals
 
 from django.db import models
 from colorfield.fields import ColorField
+from commons.utils import get_image_path
+from commons.models import BaseModel
+
+
 # Create your models here.
 
-class Store(models.Model):
+class Store(BaseModel):
     name = models.CharField(max_length=50, unique=True)
     display_name = models.CharField(max_length=50)
-    image = models.ImageField(blank=True, null=True,upload_to=get_image_path)
+    image = models.ImageField(blank=True, null=True, upload_to=get_image_path)
     website = models.CharField(null=True, blank=True, max_length=50)
     telephone = models.CharField(null=True, blank=True, max_length=50)
     email = models.EmailField(null=True, blank=True, max_length=50)
     color = ColorField(default='#FFFFFF')
 
     def __str__(self):
-    	return self.name
+        return self.name
 
-class Outlet(models.Model):
+
+class Outlet(BaseModel):
     name = models.CharField(max_length=255, unique=True)
     display_name = models.CharField(blank=True, null=True, max_length=50)
     latitude = models.DecimalField(max_digits=12, decimal_places=8, null=True)
