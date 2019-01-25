@@ -1,5 +1,4 @@
 Django==2.1.5
-pytz==2018.9
-Django==2.1.5
 django-colorfield==0.1.15
+Pillow==5.4.1
 pytz==2018.9
