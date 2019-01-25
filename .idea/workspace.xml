@@ -1,12 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="ab34f358-7287-4767-bb21-81755a41e725" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/store_listing/serializers.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/quicklane_api/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/quicklane_api/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/store_listing/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/store_listing/views.py" afterDir="false" />
-    </list>
+    <list default="true" id="ab34f358-7287-4767-bb21-81755a41e725" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -117,7 +112,7 @@
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="114" />
+    <option name="x" value="3954" />
     <option name="y" value="-7" />
     <option name="width" value="3726" />
     <option name="height" value="2167" />
@@ -203,15 +198,15 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1548456341050</updated>
-      <workItem from="1548456347795" duration="2621000" />
+      <workItem from="1548456347795" duration="2993000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="2621000" />
+    <option name="totallyTimeSpent" value="2993000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="114" y="-7" width="3726" height="2167" extended-state="6" />
+    <frame x="3954" y="-7" width="3726" height="2167" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Favorites" side_tool="true" />
@@ -221,7 +216,7 @@
       <window_info anchor="bottom" id="Database Changes" />
       <window_info anchor="bottom" id="Version Control" />
       <window_info anchor="bottom" id="Python Console" />
-      <window_info anchor="bottom" id="Terminal" visible="true" weight="0.3297325" />
+      <window_info anchor="bottom" id="Terminal" weight="0.3297325" />
       <window_info anchor="bottom" id="Event Log" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
@@ -268,6 +263,19 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/store_listing/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1013">
+          <caret line="39" lean-forward="true" selection-start-line="39" selection-end-line="39" />
+          <folding>
+            <element signature="e#24#63#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/store_listing/apps.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
     <entry file="file://$PROJECT_DIR$/store_listing/views.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="32">
@@ -284,19 +292,6 @@
           </folding>
         </state>
       </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/store_listing/models.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1013">
-          <caret line="39" lean-forward="true" selection-start-line="39" selection-end-line="39" />
-          <folding>
-            <element signature="e#24#63#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/store_listing/apps.py">
-      <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/quicklane_api/settings.py">
       <provider selected="true" editor-type-id="text-editor">
