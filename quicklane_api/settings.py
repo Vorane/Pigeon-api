@@ -38,7 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'categories.apps.CategoriesConfig',
-    'colorfield'
+    'colorfield',
+    'store_listing.apps.StoreListingConfig'
 ]
 
 MIDDLEWARE = [
