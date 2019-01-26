@@ -127,3 +127,4 @@ migrations/
 #Dartabase
 *.sqlite3
 
+db.sqlite3
