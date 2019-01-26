@@ -7,6 +7,7 @@ from .serializers import StoreCategorySerializer, CategorySubCategoryListingSeri
 
 class CategorySubCategoriesView(RetrieveAPIView):
     model = Category
+    lookup_url_kwarg="category_id"
     lookup_field="id"
     queryset = Category.objects.all()
     serializer_class= CategorySubCategoryListingSerializer
