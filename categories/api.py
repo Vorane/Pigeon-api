@@ -1,8 +1,16 @@
 from rest_framework.generics import RetrieveAPIView
 
 from store_listing.models import Store
+from .models import Category
+from .serializers import StoreCategorySerializer, CategorySubCategoryListingSerializer
 
-from .serializers import StoreCategorySerializer
+
+class CategorySubCategoriesView(RetrieveAPIView):
+    model = Category
+    lookup_field="id"
+    queryset = Category.objects.all()
+    serializer_class= CategorySubCategoryListingSerializer
+
 
 class StoreCategoriesView(RetrieveAPIView):
     model=Store

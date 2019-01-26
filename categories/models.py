@@ -34,5 +34,5 @@ class SubCategory(BaseModel):
 
 
 class CategorySubCategory(models.Model):
-    category = models.ForeignKey(Category, on_delete=models.CASCADE)
-    sub_category = models.ForeignKey(SubCategory, on_delete=models.CASCADE)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE ,related_name="category_categorysubcategory")
+    sub_category = models.ForeignKey(SubCategory, on_delete=models.CASCADE, related_name="subcategory_categorysubcategory")
