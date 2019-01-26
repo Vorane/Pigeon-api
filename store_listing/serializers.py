@@ -12,3 +12,9 @@ class StoreSerializer(serializers.ModelSerializer):
     class Meta:
         model = Store
         fields = "__all__"
+
+class StoreOutletSerializer(serializers.ModelSerializer):
+    outlets = OutletSerializer(many=True, source="store_outlet")
+    class Meta:
+        model = Store
+        fields=("id","name","outlets")

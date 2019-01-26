@@ -33,7 +33,7 @@ class Outlet(BaseModel):
     location = models.CharField(max_length=255, null=True)
     telephone = models.CharField(max_length=30, null=True)
     website = models.CharField(max_length=30, null=True)
-    store = models.ForeignKey(Store, on_delete=models.DO_NOTHING)
+    store = models.ForeignKey(Store, on_delete=models.DO_NOTHING, related_name="store_outlet")
 
     def __str__(self):
         return self.name
