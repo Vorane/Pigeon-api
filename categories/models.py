@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
+from store_listing.models import Store
 
 from colorfield.fields import ColorField
 from django.db import models
@@ -13,6 +14,7 @@ class Category(BaseModel):
 	thumbnail = models.FileField(upload_to=get_image_path, null=True,  blank=True)
 	description = models.TextField(default="", null=True)
 	color = ColorField(default='#FFFFFF')
+	store = models.ForeignKey(Store, on_delete=models.DO_NOTHING)
 
 	def __str__(self):
 		return self.name
