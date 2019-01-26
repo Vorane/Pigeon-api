@@ -7,11 +7,11 @@ from store_listing.serializers import OutletSerializer, StoreSerializer
 # Create your views here.
 class StoresView(ListCreateAPIView):
     model = Store
-    querset = Store.objects.all()
     serializer_class = StoreSerializer
+    queryset = Store.objects.all()
 
 
 class OutletsView(ListCreateAPIView):
     model = Outlet
-    querset = Outlet.objects.all()
+    queryset = Outlet.objects.all()
     serializer_class = OutletSerializer

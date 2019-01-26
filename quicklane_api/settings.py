@@ -29,15 +29,19 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'quicklane_api',
+    'product_listing',
+    'store_listing',
+    'api',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'categories.apps.CategoriesConfig',
+    'categories',
     'colorfield',
-    'store_listing.apps.StoreListingConfig'
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
@@ -48,7 +52,6 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'rest_framework',
 ]
 
 ROOT_URLCONF = 'quicklane_api.urls'
