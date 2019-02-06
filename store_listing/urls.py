@@ -4,7 +4,7 @@ from .api import StoresView, OutletsView, StoreOutletsView
 
 
 from categories.urls import store_categories_urls
-
+from orders.urls import api_outlet_orders_urls
 app_name = "storelisting"
 
 store_listing_urls = [
@@ -12,6 +12,7 @@ store_listing_urls = [
     url(r'^store/(?P<id>\d+)/outlets/$', StoreOutletsView.as_view(), name='store-outlet-view'),
     url(r'^store/(?P<id>\d+)/categories/', include(store_categories_urls)),
     url(r'^outlet/$', OutletsView.as_view(), name='outlet'),
+    url(r'^store/(?P<id>\d+)/orders/', include(api_outlet_orders_urls)),
 
     
 ]

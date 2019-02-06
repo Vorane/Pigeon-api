@@ -32,6 +32,7 @@ INSTALLED_APPS = [
     'quicklane_api',
     'product_listing',
     'store_listing',
+    'orders',
     'api',
     'django.contrib.admin',
     'django.contrib.auth',
