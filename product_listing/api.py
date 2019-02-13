@@ -1,7 +1,10 @@
-from rest_framework.generics import RetrieveAPIView
+from rest_framework.generics import RetrieveAPIView , ListAPIView
+from rest_framework import filters
 
 from .serializers import SubCategoryProductListSerializer
 from categories.models import SubCategory
+from product_listing.models import Product
+from product_listing.serializers import ProductSerializer
 
 class SubCategoryProductsView(RetrieveAPIView):
     model= SubCategory
@@ -9,3 +12,9 @@ class SubCategoryProductsView(RetrieveAPIView):
     lookup_url_kwarg="subcategory_id"
     lookup_field="id"
     serializer_class = SubCategoryProductListSerializer
+
+class ProductListView(ListAPIView):
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
+    filter_backends = (filters.SearchFilter,)
+    search_fields = ('display_name',)
