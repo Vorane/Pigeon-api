@@ -1,5 +1,9 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 from rest_framework.generics import RetrieveAPIView ,ListAPIView
+=======
+from rest_framework.generics import RetrieveAPIView
+>>>>>>> 106d9081fba09b4b8232ffe4c3f20ae0cbbc95af
 =======
 from rest_framework.generics import RetrieveAPIView
 >>>>>>> 106d9081fba09b4b8232ffe4c3f20ae0cbbc95af
@@ -8,7 +12,10 @@ from rest_framework.permissions import AllowAny
 from django.http import JsonResponse
 from django.core import serializers
 <<<<<<< HEAD
+<<<<<<< HEAD
 from api import mpesa
+=======
+>>>>>>> 106d9081fba09b4b8232ffe4c3f20ae0cbbc95af
 =======
 >>>>>>> 106d9081fba09b4b8232ffe4c3f20ae0cbbc95af
 
@@ -26,6 +33,7 @@ def validate_object(my_object, fields):
         return {"status": True}
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 def calculate_basket_total(items):
     for item_object in items:
         valid = validate_object(item_object, ["id", "quantity"])
@@ -41,12 +49,19 @@ class OutletOrdersView(ListAPIView):
 =======
 class OutletOrdersView(RetrieveAPIView):
 >>>>>>> 106d9081fba09b4b8232ffe4c3f20ae0cbbc95af
+=======
+class OutletOrdersView(RetrieveAPIView):
+>>>>>>> 106d9081fba09b4b8232ffe4c3f20ae0cbbc95af
     permission_classes = [AllowAny, ]
     model = Outlet
     queryset = Outlet.objects.all()
     serializer_class = OutletOrdersSerializers
 <<<<<<< HEAD
+<<<<<<< HEAD
     
+=======
+    lookup_field = "code"
+>>>>>>> 106d9081fba09b4b8232ffe4c3f20ae0cbbc95af
 =======
     lookup_field = "code"
 >>>>>>> 106d9081fba09b4b8232ffe4c3f20ae0cbbc95af
@@ -69,7 +84,11 @@ class CreateOrderView(APIView):
     def post(self, request, **kwargs):
         if request.data:
             # check if items property exists
+<<<<<<< HEAD
             valid = validate_object(request.data, ["items", "comments", "outlet_id", "mpesa_number"])
+=======
+            valid = validate_object(request.data, ["items", "comments"])
+>>>>>>> 106d9081fba09b4b8232ffe4c3f20ae0cbbc95af
             if not valid["status"]:
                 return JsonResponse(
                     {
@@ -77,6 +96,7 @@ class CreateOrderView(APIView):
                         'message': "missing attribute: " + valid["field"]
                     },
                     status=400)
+<<<<<<< HEAD
             #calculate total and send mpesa push sdk to get money for payments
             total_amount = 0 #stores the total amount to be paid
             for item_object in request.data["items"]:
@@ -96,6 +116,12 @@ class CreateOrderView(APIView):
             # find the outlet making the order
             outlet = Outlet.objects.get(id=request.data["outlet_id"])
             if outlet:
+=======
+
+            # find the outlet making the order
+            outlet = Outlet.objects.get(code=kwargs['code'])
+            if oulet:
+>>>>>>> 106d9081fba09b4b8232ffe4c3f20ae0cbbc95af
 
                 # create a new order objects
                 new_order = Order.objects.create(
@@ -105,7 +131,11 @@ class CreateOrderView(APIView):
                 # create the order items
                 for item in request.data["items"]:
                     # find the product
+<<<<<<< HEAD
                     product = Product.objects.get(id=item["product_id"])
+=======
+                    product = Product.objects.get(id=item["product"])
+>>>>>>> 106d9081fba09b4b8232ffe4c3f20ae0cbbc95af
 
                     if product:
 
