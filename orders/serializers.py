@@ -35,5 +35,5 @@ class OutletOrdersSerializers(ModelSerializer):
     
     class Meta:
         model = Outlet
-        fields = ("id", "code", "outlet_order")
+        fields = ("id", "outlet_order")
 

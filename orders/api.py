@@ -1,4 +1,4 @@
-from rest_framework.generics import RetrieveAPIView
+from rest_framework.generics import RetrieveAPIView ,ListAPIView
 from rest_framework.views import APIView
 from rest_framework.permissions import AllowAny
 from django.http import JsonResponse
@@ -17,12 +17,23 @@ def validate_object(my_object, fields):
     else:
         return {"status": True}
 
-class OutletOrdersView(RetrieveAPIView):
+def calculate_basket_total(items):
+    for item_object in items:
+        valid = validate_object(item_object, ["id", "quantity"])
+    if not valid["status"]:
+                return JsonResponse(
+                    {
+                        'status': 'bad request',
+                        'message': "missing attribute: " + valid["field"]
+                    },
+                    status=400)
+
+class OutletOrdersView(ListAPIView):
     permission_classes = [AllowAny, ]
     model = Outlet
     queryset = Outlet.objects.all()
     serializer_class = OutletOrdersSerializers
-    lookup_field = "code"
+    
 
 
 class OrderDetailsView(RetrieveAPIView):
@@ -42,7 +53,7 @@ class CreateOrderView(APIView):
     def post(self, request, **kwargs):
         if request.data:
             # check if items property exists
-            valid = validate_object(request.data, ["items", "comments"])
+            valid = validate_object(request.data, ["items", "comments", "outlet_id", "mpesa_number"])
             if not valid["status"]:
                 return JsonResponse(
                     {
@@ -50,10 +61,23 @@ class CreateOrderView(APIView):
                         'message': "missing attribute: " + valid["field"]
                     },
                     status=400)
+            #calculate total and send mpesa push sdk to get money for payments
+            total_amount = 0 #stores the total amount to be paid
+            for item_object in request.data["items"]:
+                valid_items = validate_object(item_object, ["product_id", "quantity"]) #check if each item has quantity and product_id values
+                if not valid_items["status"]:
+                    return JsonResponse(
+                        {
+                            'status': 'bad request',
+                            'message': "missing attribute: " + valid_items["field"]
+                        },
+                        status=400)
+                total_amount += (item_object["quantity"]) * Product.objects.values_list("price", flat=True).get(id=item_object["product_id"])
+            print(total_amount)
 
             # find the outlet making the order
-            outlet = Outlet.objects.get(code=kwargs['code'])
-            if oulet:
+            outlet = Outlet.objects.get(id=request.data["outlet_id"])
+            if outlet:
 
                 # create a new order objects
                 new_order = Order.objects.create(
@@ -63,7 +87,7 @@ class CreateOrderView(APIView):
                 # create the order items
                 for item in request.data["items"]:
                     # find the product
-                    product = Product.objects.get(id=item["product"])
+                    product = Product.objects.get(id=item["product_id"])
 
                     if product:
 
