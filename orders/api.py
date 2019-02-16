@@ -3,6 +3,7 @@ from rest_framework.views import APIView
 from rest_framework.permissions import AllowAny
 from django.http import JsonResponse
 from django.core import serializers
+from api import mpesa
 
 from store_listing.models import Outlet
 from product_listing.models import Product
@@ -74,7 +75,9 @@ class CreateOrderView(APIView):
                         status=400)
                 total_amount += (item_object["quantity"]) * Product.objects.values_list("price", flat=True).get(id=item_object["product_id"])
             print(total_amount)
-
+            #send stk push
+            mpesa_text = mpesa.sendSTK(request.data['mpesa_number'], 50)
+            print(mpesa_text)
             # find the outlet making the order
             outlet = Outlet.objects.get(id=request.data["outlet_id"])
             if outlet:
