@@ -3,6 +3,7 @@ from __future__ import unicode_literals
 
 from django.db import models
 from commons.models import BaseModel
+from store_listing.models import Outlet
 from colorfield.fields import ColorField
 from commons.utils import get_image_path
 from categories.models import SubCategory
@@ -29,3 +30,9 @@ class Product(BaseModel):
 class SubCategoryProduct(BaseModel):
     sub_category = models.ForeignKey(SubCategory, on_delete=models.CASCADE, related_name="subcategory_subcategory_product")
     product  = models.ForeignKey(Product, on_delete=models.CASCADE, related_name="product_subcategory_product")
+
+class Inventory(BaseModel):
+    product  = models.ForeignKey(Product, on_delete=models.CASCADE, related_name="product_inventory_product")
+    outlet = models.ForeignKey(Outlet, on_delete=models.CASCADE, related_name="product_outlet_product") 
+    quantity = models.IntegerField( blank=False, null=False , default=0)
+    isOffered = models.BooleanField(default=True, blank=False)

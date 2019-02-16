@@ -1,7 +1,7 @@
 from django.conf import settings
 from django.conf.urls import url
 from .api import SubCategoryProductsView
-from .api import ProductListView
+from .api import ProductListView , InventoryListView
 
 app_name = "product_listing"
 
@@ -11,7 +11,7 @@ subcategory_product_urls = [
 
 api_product_urls = [
     # used to search for products in an outlet
-    url(r'^$',ProductListView.as_view(),
+    url(r'^$',InventoryListView.as_view(),
         name='outlet-products-view'),
    
 ]

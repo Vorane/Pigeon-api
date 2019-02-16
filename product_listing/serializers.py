@@ -3,11 +3,16 @@ from rest_framework.serializers import ModelSerializer
 
 from categories.models import SubCategory
 from categories.serializers import SubCategorySerializer
-from .models import Product, SubCategoryProduct
+from .models import Product, SubCategoryProduct, Inventory
 
 class ProductSerializer(ModelSerializer):
     class Meta:
         model=Product
+        fields="__all__"
+
+class InventorySerializer(ModelSerializer):
+    class Meta:
+        model = Inventory
         fields="__all__"
 
 class SubCategoryProductSerializer(ModelSerializer):
