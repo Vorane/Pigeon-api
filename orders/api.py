@@ -1,9 +1,16 @@
+<<<<<<< HEAD
 from rest_framework.generics import RetrieveAPIView ,ListAPIView
+=======
+from rest_framework.generics import RetrieveAPIView
+>>>>>>> 106d9081fba09b4b8232ffe4c3f20ae0cbbc95af
 from rest_framework.views import APIView
 from rest_framework.permissions import AllowAny
 from django.http import JsonResponse
 from django.core import serializers
+<<<<<<< HEAD
 from api import mpesa
+=======
+>>>>>>> 106d9081fba09b4b8232ffe4c3f20ae0cbbc95af
 
 from store_listing.models import Outlet
 from product_listing.models import Product
@@ -18,6 +25,7 @@ def validate_object(my_object, fields):
     else:
         return {"status": True}
 
+<<<<<<< HEAD
 def calculate_basket_total(items):
     for item_object in items:
         valid = validate_object(item_object, ["id", "quantity"])
@@ -30,11 +38,18 @@ def calculate_basket_total(items):
                     status=400)
 
 class OutletOrdersView(ListAPIView):
+=======
+class OutletOrdersView(RetrieveAPIView):
+>>>>>>> 106d9081fba09b4b8232ffe4c3f20ae0cbbc95af
     permission_classes = [AllowAny, ]
     model = Outlet
     queryset = Outlet.objects.all()
     serializer_class = OutletOrdersSerializers
+<<<<<<< HEAD
     
+=======
+    lookup_field = "code"
+>>>>>>> 106d9081fba09b4b8232ffe4c3f20ae0cbbc95af
 
 
 class OrderDetailsView(RetrieveAPIView):
