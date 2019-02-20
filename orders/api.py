@@ -54,7 +54,7 @@ class CreateOrderView(APIView):
         if request.data:
             
             # check if items property exists
-            valid = validate_object(request.data, ["items", "comments", "outlet_id", "mpesa_number"])
+            valid = validate_object(request.data, ["items", "comments", "outlet_id", "mpesa_number", "pickup_time"])
             if not valid["status"]:
                 return JsonResponse(
                     {
@@ -76,15 +76,15 @@ class CreateOrderView(APIView):
                 total_amount += (item_object["quantity"]) * Product.objects.values_list("price", flat=True).get(id=item_object["product_id"])
             print(total_amount)
             #send stk push
-            mpesa_text = mpesa.sendSTK(request.data['mpesa_number'], 50)
-            print(mpesa_text)
+            # mpesa_text = mpesa.sendSTK(request.data['mpesa_number'], 50)
+            # print(mpesa_text)
             # find the outlet making the order
             outlet = Outlet.objects.get(id=request.data["outlet_id"])
             if outlet:
 
                 # create a new order objects
                 new_order = Order.objects.create(
-                    outlet=outlet, order_status="INITIALIZED", comment=request.data["comments"])
+                    outlet=outlet, order_status="INITIALIZED", comment=request.data["comments"] , pickup_time =request.data["pickup_time"])
                 new_order.save()
 
                 # create the order items
