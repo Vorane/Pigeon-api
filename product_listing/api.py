@@ -23,4 +23,4 @@ class InventoryListView(ListAPIView):
     queryset = Inventory.objects.all()
     serializer_class = InventorySerializer
     filter_backends = (filters.SearchFilter,)
-    search_fields = ('display_name',)
+    search_fields = ('product__display_name',)

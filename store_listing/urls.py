@@ -17,7 +17,7 @@ store_listing_urls = [
     url(r'^outlet/$', OutletsView.as_view(), name='outlet'),
     url(r'^outlet/(?P<id>\d+)/orders/', include(api_outlet_orders_urls)),
 
-    url(r'^store/(?P<id>\d+)/inventory/', include(api_product_urls)),
+    url(r'^outlet/(?P<id>\d+)/inventory/', include(api_product_urls)),
     url(r'^products/', ProductListView.as_view(), name='outlet-products-view'),
 
 

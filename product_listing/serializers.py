@@ -5,15 +5,19 @@ from categories.models import SubCategory
 from categories.serializers import SubCategorySerializer
 from .models import Product, SubCategoryProduct, Inventory
 
+
+
 class ProductSerializer(ModelSerializer):
+    
     class Meta:
         model=Product
         fields="__all__"
 
 class InventorySerializer(ModelSerializer):
+    product = ProductSerializer( )
     class Meta:
         model = Inventory
-        fields="__all__"
+        fields=("id", "quantity", "product")
 
 class SubCategoryProductSerializer(ModelSerializer):
     sub_category = SubCategorySerializer()
