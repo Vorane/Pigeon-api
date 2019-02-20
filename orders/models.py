@@ -15,7 +15,8 @@ class Order(BaseModel):
         Outlet, on_delete=models.CASCADE, related_name='outlet_order')
     order_status = models.CharField(max_length=255)
     comment = models.CharField(max_length=255)
-    pickup_time = models.DateTimeField()
+    pickup_time = models.DateTimeField(default='')
+
 class OrderItem(BaseModel):
     order = models.ForeignKey(
         Order, on_delete=models.CASCADE, related_name='order_order_item')
