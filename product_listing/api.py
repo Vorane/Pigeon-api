@@ -22,5 +22,13 @@ class ProductListView(ListAPIView):
 class InventoryListView(ListAPIView):
     queryset = Inventory.objects.all()
     serializer_class = InventorySerializer
+    def get_queryset(self):
+        """
+        This view should return a list of all the inventory for
+        an outlet as determined by the outlet_id portion of the URL.
+        """
+        outlet_id = self.kwargs['outlet_id']
+        return Inventory.objects.filter(outlet__id=outlet_id)
+    
     filter_backends = (filters.SearchFilter,)
     search_fields = ('product__display_name',)
