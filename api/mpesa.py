@@ -71,7 +71,7 @@ def register_url(access_token):
     print (response.text)
 
 
-def sendSTK(phone_number, amount):
+def sendSTK(phone_number, amount, orderId):
     access_token = get_token()
     time_now = datetime.datetime.now().strftime("%Y%m%d%H%I%S")
 
@@ -106,7 +106,7 @@ def sendSTK(phone_number, amount):
     print(json_response)
     if json_response["ResponseCode"] == "0":
         checkoutId = json_response["CheckoutRequestID"]
-        transaction = PaymentTransaction.objects.create(phone_number=phone_number, checkoutRequestID=checkoutId, amount=amount)
+        transaction = PaymentTransaction.objects.create(phone_number=phone_number, checkoutRequestID=checkoutId, amount=amount, order_id=orderId)
         transaction.save()
         return json_response
     else:
