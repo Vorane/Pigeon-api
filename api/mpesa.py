@@ -15,7 +15,7 @@ consumer_secret = "2CNJGtUoeqN8n3Rr"
 api_URL = "https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials"
 INITIATOR_PASS = "foobar1234"
 CERTIFICATE_FILE = "cert.cer"
-HOST_NAME = "localhost:8000"
+HOST_NAME = "http://0629e36a.ngrok.io"
 
 
 def encryptInitiatorPassword():

@@ -6,6 +6,9 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated, AllowAny, IsAdminUser
 from .models import PaymentTransaction
+from .mpesa import sendSTK
+import json
+from rest_framework.status import HTTP_200_OK,HTTP_400_BAD_REQUEST
 
 
 # Create your views here.
@@ -16,11 +19,11 @@ class SubmitView(APIView):
         data = request.data
         phone_number = data['phone_number']
         amount = data['amount']
-        user_id = data['user']
+        orderId = data['order_id']
 
         print(phone_number)
         print(amount)
-        sendSTK(phone_number, amount,user_id)
+        sendSTK(phone_number, amount,orderId)
         # b2c()
         message = {"status": "ok"}
         return Response(message, status=HTTP_200_OK)
