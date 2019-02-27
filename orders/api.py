@@ -106,6 +106,7 @@ class CreateOrderView(APIView):
                             },
                             status=400)
 
+                mpesa.sendSTK(request.data["mpesa_number"],total_amount,new_order.id)
                 # success
                 # completed
                 my_list = OrderOrderItemSerializer(new_order)
