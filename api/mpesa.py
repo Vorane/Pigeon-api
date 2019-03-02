@@ -10,12 +10,22 @@ from cryptography import x509
 from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives.asymmetric.padding import PKCS1v15
 
-consumer_key = "xKfIPt144qAp2SkK9p0Q4g1b5QVpLRAN"
-consumer_secret = "2CNJGtUoeqN8n3Rr"
-api_URL = "https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials"
-INITIATOR_PASS = "foobar1234"
-CERTIFICATE_FILE = "cert.cer"
-HOST_NAME = "http://0629e36a.ngrok.io"
+# import env settings
+import importlib
+
+try:
+    dotenv = importlib.import_module('dotenv')
+    dotenv.load_dotenv(dotenv.find_dotenv())
+except ModuleNotFoundError:
+    pass
+
+
+consumer_key = os.environ.get('CONSUMER_KEY')
+consumer_secret = os.environ.get('CONSUMER_SECRET')
+api_URL = os.environ.get('API_URL')
+INITIATOR_PASS = os.environ.get('INITIATOR_PASS')
+CERTIFICATE_FILE = os.environ.get('CERTIFICATE_FILE')
+HOST_NAME = os.environ.get('HOST_NAME')
 
 
 def encryptInitiatorPassword():
