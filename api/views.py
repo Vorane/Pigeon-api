@@ -5,7 +5,7 @@ from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated, AllowAny, IsAdminUser
-from .models import PaymentTransaction
+from .models import PaymentTransaction, Wallet
 from .mpesa import sendSTK
 import json
 from rest_framework.status import HTTP_200_OK,HTTP_400_BAD_REQUEST
@@ -48,6 +48,16 @@ class ConfirmView(APIView):
                 transaction.isFinished = True
                 transaction.isSuccessFull = True
                 transaction.save()
+                try:
+                    wallet = Wallet.objects.filter(user=user.id).get()
+                    if not wallet:
+                        wallet = Wallet.objects.create(user=user,amount=transaction.amount )
+                    else:
+                        wallet.amount = wallet.amount + transaction.amount
+                    wallet.save()
+                except Wallet.DoesNotExist:
+                    wallet = Wallet.objects.create(user=user, amount=transaction.amount)
+                    wallet.save()
 
         else:
             print ('unsuccessfull')

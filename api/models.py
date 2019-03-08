@@ -2,9 +2,12 @@
 from __future__ import unicode_literals
 
 from django.db import models
+from commons.models import BaseModel
+
 
 # Create your models here.
 # Paynment transaction model
+
 class PaymentTransaction(models.Model):
     phone_number = models.CharField(max_length=30)
     amount = models.DecimalField(('amount'), max_digits=6, decimal_places=2, default=0)
@@ -15,3 +18,9 @@ class PaymentTransaction(models.Model):
     checkoutRequestID = models.CharField(max_length=100)
     date_modified = models.DateTimeField(auto_now=True)
     date_created = models.DateTimeField(auto_now=False, auto_now_add=True)
+
+
+class Wallet(BaseModel):
+    phone_number = models.CharField(max_length=30)
+    available_balance = models.DecimalField(('available_balance'), max_digits=6, decimal_places=2, default=0)
+    actual_balance = models.DecimalField(('actual_balance'), max_digits=6, decimal_places=2, default=0)
