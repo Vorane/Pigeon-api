@@ -5,7 +5,7 @@ def updateAvailableBalance(wallet_id):
     """ Function to update available balance """
     wallet = Wallet.objects.filter(wallet_id=wallet_id).get()
     if wallet:
-        orders = Order.objects.filter(wallet=wallet,order_status="pending").get()
+        orders = Order.objects.filter(wallet=wallet,order_status="served").get()
         total_amount = 0
         for order in orders:
             total_amount+= order.totalAmount()
