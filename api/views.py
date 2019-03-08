@@ -56,7 +56,7 @@ class ConfirmView(APIView):
                         wallet = Wallet.objects.create(phone_number=transaction.phone_number)
                     wallet.actual_balance+= transaction.amount
                     wallet.save()
-                    updateAvailableBalance(wallet.id)
+                    updateAvailableBalance.send(sender=Wallet,wallet=wallet.id)
                 except Wallet.DoesNotExist:
                     wallet = Wallet.objects.create(phone_number=transaction.phone_number)
                     wallet.save()
