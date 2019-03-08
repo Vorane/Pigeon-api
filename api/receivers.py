@@ -6,7 +6,7 @@ from .signals import *
 @receiver(updateAvailableBalance)
 def on_new_request(sender, **kwargs):
     wallet_id = kwargs.get('wallet_id')
-    phone_number = kwargs.get('phone_number')
-    updateAvailableBalance(wallet_id, phone_number)
+    print('calling update balance')
+    updateAvailableBalance(wallet_id)
 
 

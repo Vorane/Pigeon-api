@@ -9,6 +9,7 @@ from commons.models import  BaseModel
 from product_listing.models import Product
 from store_listing.models import Outlet
 from commons.utils import validate_object
+from api.models import Wallet
 # Create your models here.
 
 class Order(BaseModel):
@@ -17,6 +18,8 @@ class Order(BaseModel):
     order_status = models.CharField(max_length=255)
     comment = models.CharField(max_length=255)
     pickup_time = models.DateTimeField(default='2012-09-04 06:00')
+    wallet = models.ForeignKey(Wallet, on_delete=models.DO_NOTHING, related_name="order_wallet_order", null=True)
+
 
     def totalAmount(self):
         order_items = OrderItem.objects.filter(order=self).get()
