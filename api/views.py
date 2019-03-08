@@ -35,6 +35,7 @@ class ConfirmView(APIView):
 
     def post(self, request):
         # save the data
+        print("confirm view reached")
         request_data = json.dumps(request.data)
         request_data = json.loads(request_data)
         body = request_data.get('Body')
@@ -53,8 +54,7 @@ class ConfirmView(APIView):
                     wallet = Wallet.objects.filter(phone_number=transaction.phone_number).get()
                     if not wallet:
                         wallet = Wallet.objects.create(phone_number=transaction.phone_number)
-                    else:
-                        wallet.actual_balance+= transaction.amount
+                    wallet.actual_balance+= transaction.amount
                     wallet.save()
                     updateAvailableBalance(wallet.id)
                 except Wallet.DoesNotExist:
