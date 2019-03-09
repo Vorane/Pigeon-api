@@ -129,3 +129,8 @@ migrations/
 
 db.sqlite3
 .idea/*
+
+
+#media and static files
+static/
+media/
