@@ -134,3 +134,5 @@ db.sqlite3
 #media and static files
 static/
 media/
+
+.idea/workspace.xml
