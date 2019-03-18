@@ -19,8 +19,16 @@ class PaymentTransaction(models.Model):
     date_modified = models.DateTimeField(auto_now=True)
     date_created = models.DateTimeField(auto_now=False, auto_now_add=True)
 
+    def __str__(self):
+        return "{} {}".format(self.phone_number, self.amount)
+
 
 class Wallet(BaseModel):
     phone_number = models.CharField(max_length=30)
     available_balance = models.DecimalField(('available_balance'), max_digits=6, decimal_places=2, default=0)
     actual_balance = models.DecimalField(('actual_balance'), max_digits=6, decimal_places=2, default=0)
+    date_modified = models.DateTimeField(auto_now=True, null=True)
+    date_created = models.DateTimeField(auto_now=False, auto_now_add=True, null=True)
+
+    def __str__(self):
+        return self.phone_number

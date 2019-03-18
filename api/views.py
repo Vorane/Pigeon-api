@@ -9,6 +9,7 @@ from .models import PaymentTransaction, Wallet
 from .mpesa import sendSTK
 import json
 from rest_framework.status import HTTP_200_OK,HTTP_400_BAD_REQUEST
+from .signals import updateAvailableBalance
 
 
 # Create your views here.
@@ -34,6 +35,7 @@ class ConfirmView(APIView):
 
     def post(self, request):
         # save the data
+        print("confirm view reached")
         request_data = json.dumps(request.data)
         request_data = json.loads(request_data)
         body = request_data.get('Body')
@@ -49,14 +51,14 @@ class ConfirmView(APIView):
                 transaction.isSuccessFull = True
                 transaction.save()
                 try:
-                    wallet = Wallet.objects.filter(user=user.id).get()
+                    wallet = Wallet.objects.filter(phone_number=transaction.phone_number).get()
                     if not wallet:
-                        wallet = Wallet.objects.create(user=user,amount=transaction.amount )
-                    else:
-                        wallet.amount = wallet.amount + transaction.amount
+                        wallet = Wallet.objects.create(phone_number=transaction.phone_number)
+                    wallet.actual_balance+= transaction.amount
                     wallet.save()
+                    updateAvailableBalance.send(sender=Wallet,wallet=wallet.id)
                 except Wallet.DoesNotExist:
-                    wallet = Wallet.objects.create(user=user, amount=transaction.amount)
+                    wallet = Wallet.objects.create(phone_number=transaction.phone_number)
                     wallet.save()
 
         else:

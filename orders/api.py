@@ -8,6 +8,7 @@ from api import mpesa
 from store_listing.models import Outlet
 from product_listing.models import Product
 from orders.models import Order, OrderItem
+from api.models import Wallet
 from orders.serializers import OutletOrdersSerializers, OrderOrderItemSerializer, OrderInlineSerializer
 import json
 
@@ -83,8 +84,15 @@ class CreateOrderView(APIView):
             if outlet:
 
                 # create a new order objects
+
+                phone_number = request.data["mpesa_number"]
+                wallet = Wallet.objects.filter(phone_number=phone_number).get()
+                if not wallet:
+                    wallet = Wallet.objects.create(phone_number=phone_number)
+                wallet.save()
                 new_order = Order.objects.create(
-                    outlet=outlet, order_status="INITIALIZED", comment=request.data["comments"] , pickup_time =request.data["pickup_time"])
+                    outlet=outlet, order_status="INITIALIZED", comment=request.data["comments"],
+                    pickup_time=request.data["pickup_time"], wallet=wallet)
                 new_order.save()
 
                 # create the order items
