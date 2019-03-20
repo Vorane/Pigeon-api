@@ -31,8 +31,14 @@ class SubCategoryProduct(BaseModel):
     sub_category = models.ForeignKey(SubCategory, on_delete=models.CASCADE, related_name="subcategory_subcategory_product")
     product  = models.ForeignKey(Product, on_delete=models.CASCADE, related_name="product_subcategory_product")
 
+    def __str__(self):
+        return ( str(self.sub_category.store.display_name) + " - " + str(self.sub_category.display_name) + " - " + str(self.product.display_name) )
+
 class Inventory(BaseModel):
     product  = models.ForeignKey(Product, on_delete=models.CASCADE, related_name="product_inventory_product")
     outlet = models.ForeignKey(Outlet, on_delete=models.CASCADE, related_name="product_outlet_product") 
     quantity = models.IntegerField( blank=False, null=False , default=0)
     isOffered = models.BooleanField(default=True, blank=False)
+
+    def __str__(self):
+        return ( str( self.outlet.display_name) + " - " + str(self.product.display_name) + " - " + str(self.quantity))
