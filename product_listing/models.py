@@ -12,15 +12,15 @@ from categories.models import SubCategory
 
 
 class Product(BaseModel):
-    name = models.CharField(max_length=30, unique=False)
-    display_name = models.CharField(max_length=30, blank=True, null=True)
+    name = models.CharField(max_length=256, unique=False)
+    display_name = models.CharField(max_length=256, blank=True, null=True)
     thumbnail = models.FileField(upload_to=get_image_path, null=True, blank=True)
     description = models.TextField(default="", null=True, blank=True)
     price = models.FloatField( blank=False, null=False , default=0)
 
-    brand = models.CharField(max_length=30, blank=True, null=True)
-    size = models.CharField(max_length=30, blank=True, null=True)
-    variant = models.CharField(max_length=30, blank=True, null=True)
+    brand = models.CharField(max_length=256, blank=True, null=True)
+    size = models.CharField(max_length=256, blank=True, null=True)
+    variant = models.CharField(max_length=256, blank=True, null=True)
     color = ColorField(default='#FFFFFF')
 
     def __str__(self):
