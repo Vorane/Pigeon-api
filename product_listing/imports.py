@@ -18,7 +18,7 @@ def get_productsjson(filepath):
         # create a new category
         cat = Category()
         cat.name = data["name"]
-        cat.dispay_name = data["name"]
+        cat.display_name = data["name"]
         cat.color = data["color"]
         cat.store = store
         cat.save()
