@@ -86,7 +86,11 @@ class CreateOrderView(APIView):
                 # create a new order objects
 
                 phone_number = request.data["mpesa_number"]
-                wallet = Wallet.objects.filter(phone_number=phone_number).get()
+
+                try:
+                    wallet = Wallet.objects.filter(phone_number=phone_number).get()
+                except Wallet.DoesNotExist:
+                    wallet = None 
                 if not wallet:
                     wallet = Wallet.objects.create(phone_number=phone_number)
                 wallet.save()
@@ -142,3 +146,64 @@ class CreateOrderView(APIView):
                     'message': "request body is missing"
                 },
                 status = 400)
+
+
+class UpdateOrdersView(APIView):
+    permission_classes = [AllowAny, ]
+
+    # handle the POST method
+    serializer_class = OrderInlineSerializer
+    def post(self, request, **kwargs):
+        if request.data: 
+            valid = validate_object(request.data, ["order_status", "pickup_time"])
+            if not valid["status"]:
+                return JsonResponse(
+                    {
+                        'status': 'bad request',
+                        'message': "missing attribute: " + valid["field"]
+                    },
+                    status=400)
+            #if the request has data
+            try:
+                order = Order.objects.get(id=kwargs['id'])
+            except Order.DoesNotExist:
+                order = None 
+            #order = Order.objects.get(id=kwargs['id'])
+            #get the order with the same id
+            if order:
+                if request.data["order_status"] != '':
+                    order.order_status = request.data["order_status"]
+                    order.save()
+                elif request.data["pickup_time"] != '':
+                    order.pickup_time = request.data["pickup_time"]
+                    order.save()
+                else:
+                    print("no orders to update")
+                my_list = OrderOrderItemSerializer(order)
+                return JsonResponse(
+                    {
+                        'status': 'success',
+                        'message': "order has been successfully updated",
+                        "order": my_list.data
+                    },
+                    status = 201)
+            else:
+                return JsonResponse(
+                {
+                    'status': 'bad request',
+                    'message': "order doesnt exist"
+                },
+                status = 400) 
+        else:
+            return JsonResponse(
+                {
+                    'status': 'bad request',
+                    'message': "request body is missing"
+                },
+                status = 400)           
+
+
+
+
+
+
