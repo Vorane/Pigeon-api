@@ -9,7 +9,8 @@ from .models import PaymentTransaction, Wallet
 from .mpesa import sendSTK
 import json
 from rest_framework.status import HTTP_200_OK,HTTP_400_BAD_REQUEST
-from .signals import updateAvailableBalance
+from .signals import updateAvailableBalance, sendSMSReceipt
+from commons.smsutils import *
 
 
 # Create your views here.
@@ -57,6 +58,7 @@ class ConfirmView(APIView):
                     wallet.actual_balance+= transaction.amount
                     wallet.save()
                     updateAvailableBalance.send(sender=Wallet,wallet=wallet.id)
+                    sendSMSReceipt(sender=Wallet,message=build_receipt(transaction.amount), phone_number=transaction.phone_number)
                 except Wallet.DoesNotExist:
                     wallet = Wallet.objects.create(phone_number=transaction.phone_number)
                     wallet.save()
