@@ -71,6 +71,8 @@ INSTALLED_APPS = [
     'colorfield',
     'rest_framework',
      'storages',
+    'authentication.apps.AuthenticationConfig',    
+    'store.apps.StoreConfig',    
 ]
 
 MIDDLEWARE = [
@@ -212,3 +214,7 @@ STATICFILES_DIRS = (
 )
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+# Custom Django auth settings
+
+AUTH_USER_MODEL = 'authentication.User'
