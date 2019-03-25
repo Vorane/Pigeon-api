@@ -1,4 +1,5 @@
 from rest_framework.generics import RetrieveAPIView , ListAPIView
+from rest_framework.permissions import AllowAny
 from rest_framework import filters
 
 from .serializers import SubCategoryProductListSerializer
@@ -7,6 +8,7 @@ from product_listing.models import Product , Inventory
 from product_listing.serializers import ProductSerializer , InventorySerializer
 
 class SubCategoryProductsView(RetrieveAPIView):
+    permission_classes = [AllowAny,]
     model= SubCategory
     queryset= SubCategory.objects.all()
     lookup_url_kwarg="subcategory_id"
@@ -14,12 +16,14 @@ class SubCategoryProductsView(RetrieveAPIView):
     serializer_class = SubCategoryProductListSerializer
 
 class ProductListView(ListAPIView):
+    permission_classes = [AllowAny,]
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
     filter_backends = (filters.SearchFilter,)
     search_fields = ('display_name',)
 
 class InventoryListView(ListAPIView):
+    permission_classes = [AllowAny,]
     queryset = Inventory.objects.all()
     serializer_class = InventorySerializer
     def get_queryset(self):
