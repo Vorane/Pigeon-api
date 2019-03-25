@@ -1,6 +1,6 @@
 from rest_framework.generics import RetrieveAPIView ,ListAPIView
 from rest_framework.views import APIView
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import AllowAny, isAuthenticated
 from django.http import JsonResponse
 from django.core import serializers
 
@@ -31,7 +31,7 @@ def calculate_basket_total(items):
                     status=400)
 
 class OutletOrdersView(ListAPIView):
-    permission_classes = [AllowAny, ]
+    permission_classes = [isAuthenticated, ]
     model = Outlet
     queryset = Outlet.objects.all()
     serializer_class = OutletOrdersSerializers
