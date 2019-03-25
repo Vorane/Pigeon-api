@@ -71,6 +71,8 @@ INSTALLED_APPS = [
     'colorfield',
     'rest_framework',
      'storages',
+    'authentication.apps.AuthenticationConfig',    
+    'store.apps.StoreConfig',    
 ]
 
 MIDDLEWARE = [
@@ -82,9 +84,20 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+
 REST_FRAMEWORK = {
-    'DEFAULT_FILTER_BACKENDS': ('django_filters.rest_framework.DjangoFilterBackend',)
+    'DEFAULT_FILTER_BACKENDS': ('django_filters.rest_framework.DjangoFilterBackend',),
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    ),
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
+    ),
 }
+
 
 ROOT_URLCONF = 'quicklane_api.urls'
 
@@ -108,21 +121,28 @@ WSGI_APPLICATION = 'quicklane_api.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        'ENGINE': os.environ.get('DATABASE_ENGINE', 'django.db.backends.postgresql_psycopg2'),
-        'NAME': os.environ.get('DATABASE_NAME', 'dbname'),
-        'USER': os.environ.get('DATABASE_USER', 'dbuser'),
-        'PASSWORD': os.environ.get('DATABASE_PASSWORD', 'dbpassword'),
-        'HOST': os.environ.get('DATABASE_HOST', 'localhost'),
-        'PORT': os.environ.get('DATABASE_PORT', '5432'),
-    },
-    'test': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    },
-}
+if not RUNNING_DEVSERVER:    
+    DATABASES = {
+        'default': {
+            'ENGINE': os.environ.get('DATABASE_ENGINE', 'django.db.backends.postgresql_psycopg2'),
+            'NAME': os.environ.get('DATABASE_NAME', 'dbname'),
+            'USER': os.environ.get('DATABASE_USER', 'dbuser'),
+            'PASSWORD': os.environ.get('DATABASE_PASSWORD', 'dbpassword'),
+            'HOST': os.environ.get('DATABASE_HOST', 'localhost'),
+            'PORT': os.environ.get('DATABASE_PORT', '5432'),
+        },
+        'test': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        },
+    }
+else:
+    DATABASES = {
+        'default': {            
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        }
+    }
 
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
@@ -205,3 +225,11 @@ STATICFILES_DIRS = (
 )
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+# Custom Django auth settings
+
+AUTH_USER_MODEL = 'authentication.User'
+
+JWT_AUTH = {
+    'JWT_ALLOW_REFRESH': True,
+}

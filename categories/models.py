@@ -36,3 +36,6 @@ class SubCategory(BaseModel):
 class CategorySubCategory(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE ,related_name="category_categorysubcategory")
     sub_category = models.ForeignKey(SubCategory, on_delete=models.CASCADE, related_name="subcategory_categorysubcategory")
+
+    def __str__(self):
+        return ( str( self.category.store.display_name ) + " - " + str( self.category.name ) + " - " + str(self.sub_category.name) )
