@@ -84,9 +84,20 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+
 REST_FRAMEWORK = {
-    'DEFAULT_FILTER_BACKENDS': ('django_filters.rest_framework.DjangoFilterBackend',)
+    'DEFAULT_FILTER_BACKENDS': ('django_filters.rest_framework.DjangoFilterBackend',),
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    ),
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
+    ),
 }
+
 
 ROOT_URLCONF = 'quicklane_api.urls'
 
@@ -218,3 +229,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 # Custom Django auth settings
 
 AUTH_USER_MODEL = 'authentication.User'
+
+JWT_AUTH = {
+    'JWT_ALLOW_REFRESH': True,
+}
