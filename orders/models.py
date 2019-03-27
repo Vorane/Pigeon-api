@@ -17,7 +17,7 @@ class Order(BaseModel):
         Outlet, on_delete=models.CASCADE, related_name='outlet_order')
     order_status = models.CharField(max_length=255)
     comment = models.CharField(max_length=255)
-    pickup_time = models.DateTimeField(default='2012-09-04 06:00')
+    pickup_time = models.DateTimeField()
     wallet = models.ForeignKey(Wallet, on_delete=models.DO_NOTHING, related_name="order_wallet_order", null=True)
 
 

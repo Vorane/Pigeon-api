@@ -3,6 +3,8 @@ from rest_framework.views import APIView
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from django.http import JsonResponse
 from django.core import serializers
+from django_filters.rest_framework import DjangoFilterBackend
+
 
 from api import mpesa
 from store_listing.models import Outlet
@@ -32,9 +34,17 @@ def calculate_basket_total(items):
 
 class OutletOrdersView(ListAPIView):
     permission_classes = [IsAuthenticated, ]
-    model = Outlet
-    queryset = Outlet.objects.all()
-    serializer_class = OutletOrdersSerializers
+    serializer_class = OrderInlineSerializer
+    filter_backends = (DjangoFilterBackend,)
+    filterset_fields = ('order_status', 'pickup_time')
+
+    def get_queryset(self):
+        """
+        Get list of orders for the outlet that the user is assigned to
+        """
+        user = self.request.user
+        return Order.objects.filter(outlet = user.attendant.outlet)
+
 
 
 class OrderDetailsView(RetrieveAPIView):
