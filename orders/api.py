@@ -11,7 +11,7 @@ from store_listing.models import Outlet
 from product_listing.models import Product
 from orders.models import Order, OrderItem
 from api.models import Wallet
-from orders.serializers import OutletOrdersSerializers, OrderOrderItemSerializer, OrderInlineSerializer
+from orders.serializers import OutletOrdersSerializers, OrderOrderItemSerializer, OrderInlineSerializer, OrderDetailSerializer
 import json
 
 def validate_object(my_object, fields):
@@ -34,7 +34,7 @@ def calculate_basket_total(items):
 
 class OutletOrdersView(ListAPIView):
     permission_classes = [IsAuthenticated, ]
-    serializer_class = OrderInlineSerializer
+    serializer_class = OrderDetailSerializer
     filter_backends = (DjangoFilterBackend,)
     filterset_fields = ('order_status', 'pickup_time')
 
