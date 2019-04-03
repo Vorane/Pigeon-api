@@ -73,6 +73,7 @@ INSTALLED_APPS = [
      'storages',
     'authentication.apps.AuthenticationConfig',    
     'store.apps.StoreConfig',    
+    'django_filters',
 ]
 
 MIDDLEWARE = [

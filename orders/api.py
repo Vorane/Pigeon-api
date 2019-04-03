@@ -4,15 +4,16 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from django.http import JsonResponse
 from django.core import serializers
 from django_filters.rest_framework import DjangoFilterBackend
+import json
 
-
+#import local modules
 from api import mpesa
 from store_listing.models import Outlet
 from product_listing.models import Product
 from orders.models import Order, OrderItem
 from api.models import Wallet
 from orders.serializers import OutletOrdersSerializers, OrderOrderItemSerializer, OrderInlineSerializer, OrderDetailSerializer
-import json
+from .filters import OrderFilter
 
 def validate_object(my_object, fields):
     for field in fields:
@@ -35,8 +36,8 @@ def calculate_basket_total(items):
 class OutletOrdersView(ListAPIView):
     permission_classes = [IsAuthenticated, ]
     serializer_class = OrderDetailSerializer
-    filter_backends = (DjangoFilterBackend,)
-    filterset_fields = ('order_status', 'pickup_time')
+    filter_backends = (DjangoFilterBackend,)    
+    filterset_class = OrderFilter
 
     def get_queryset(self):
         """
