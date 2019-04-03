@@ -3,6 +3,7 @@ from __future__ import unicode_literals
 
 from django.db import models
 from commons.models import BaseModel
+from store_listing.models import Outlet
 
 
 # Create your models here.
@@ -33,5 +34,6 @@ class Wallet(BaseModel):
     def __str__(self):
         return self.phone_number
 
-# class CompanyWallet(BaseModel):
-#     store = models.ForeignKey(Account, on_delete=None, default=0, related_name='user_transaction')
+class OutletWallet(BaseModel):
+    outlet = models.ForeignKey(Outlet, on_delete=None, default=0, related_name='outlet_wallet')
+    wallet = models.ForeignKey(Wallet, on_delete=None, default=0, related_name='wallet_outlet')
