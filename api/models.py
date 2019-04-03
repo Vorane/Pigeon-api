@@ -32,3 +32,6 @@ class Wallet(BaseModel):
 
     def __str__(self):
         return self.phone_number
+
+# class CompanyWallet(BaseModel):
+#     store = models.ForeignKey(Account, on_delete=None, default=0, related_name='user_transaction')
