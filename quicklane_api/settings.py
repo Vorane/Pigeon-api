@@ -12,8 +12,6 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 
 import os
 
-
-
 # import env settings
 import importlib
 
@@ -23,8 +21,8 @@ try:
 except ModuleNotFoundError:
     pass
 
-EMAIL_BACKEND = os.environ.get(
-    'EMAIL_BACKEND', 'django.core.mail.backends.smtp.EmailBackend')
+EMAIL_BACKEND = os.environ.get('EMAIL_BACKEND',
+                               'django.core.mail.backends.smtp.EmailBackend')
 EMAIL_HOST = os.environ.get('EMAIL_HOST', 'localhost')
 EMAIL_PORT = os.environ.get('EMAIL_PORT', '25')
 EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER', 'foo@bar')
@@ -36,8 +34,6 @@ try:
     RUNNING_DEVSERVER = os.environ['PRODUCTION'] == None
 except:
     pass
-
-
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -70,9 +66,9 @@ INSTALLED_APPS = [
     'categories',
     'colorfield',
     'rest_framework',
-     'storages',
-    'authentication.apps.AuthenticationConfig',    
-    'store.apps.StoreConfig',    
+    'storages',
+    'authentication.apps.AuthenticationConfig',
+    'store.apps.StoreConfig',
     'django_filters',
 ]
 
@@ -86,20 +82,21 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-
 REST_FRAMEWORK = {
-    'DEFAULT_FILTER_BACKENDS': ('django_filters.rest_framework.DjangoFilterBackend',),
-    'DEFAULT_PERMISSION_CLASSES': (
-        'rest_framework.permissions.IsAuthenticated',
-    ),
+    'DEFAULT_FILTER_BACKENDS':
+    ('django_filters.rest_framework.DjangoFilterBackend', ),
+    'DEFAULT_PERMISSION_CLASSES':
+    ('rest_framework.permissions.IsAuthenticated', ),
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
         'rest_framework.authentication.SessionAuthentication',
         'rest_framework.authentication.BasicAuthentication',
     ),
-     
+    'DEFAULT_PAGINATION_CLASS':
+    'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE':
+    os.environ.get('DEFAULT_PAGE_SIZE', 100)
 }
-
 
 ROOT_URLCONF = 'quicklane_api.urls'
 
@@ -123,15 +120,22 @@ WSGI_APPLICATION = 'quicklane_api.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
-if not RUNNING_DEVSERVER:    
+if not RUNNING_DEVSERVER:
     DATABASES = {
         'default': {
-            'ENGINE': os.environ.get('DATABASE_ENGINE', 'django.db.backends.postgresql_psycopg2'),
-            'NAME': os.environ.get('DATABASE_NAME', 'dbname'),
-            'USER': os.environ.get('DATABASE_USER', 'dbuser'),
-            'PASSWORD': os.environ.get('DATABASE_PASSWORD', 'dbpassword'),
-            'HOST': os.environ.get('DATABASE_HOST', 'localhost'),
-            'PORT': os.environ.get('DATABASE_PORT', '5432'),
+            'ENGINE':
+            os.environ.get('DATABASE_ENGINE',
+                           'django.db.backends.postgresql_psycopg2'),
+            'NAME':
+            os.environ.get('DATABASE_NAME', 'dbname'),
+            'USER':
+            os.environ.get('DATABASE_USER', 'dbuser'),
+            'PASSWORD':
+            os.environ.get('DATABASE_PASSWORD', 'dbpassword'),
+            'HOST':
+            os.environ.get('DATABASE_HOST', 'localhost'),
+            'PORT':
+            os.environ.get('DATABASE_PORT', '5432'),
         },
         'test': {
             'ENGINE': 'django.db.backends.sqlite3',
@@ -140,7 +144,7 @@ if not RUNNING_DEVSERVER:
     }
 else:
     DATABASES = {
-        'default': {            
+        'default': {
             'ENGINE': 'django.db.backends.sqlite3',
             'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
         }
@@ -151,16 +155,20 @@ else:
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+        'NAME':
+        'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        'NAME':
+        'django.contrib.auth.password_validation.MinimumLengthValidator',
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+        'NAME':
+        'django.contrib.auth.password_validation.CommonPasswordValidator',
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+        'NAME':
+        'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
 
@@ -182,20 +190,16 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-
 # heroku deployment
 PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
 
-
-
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-
 # AWS static files settings
-if not RUNNING_DEVSERVER:    
+if not RUNNING_DEVSERVER:
     AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
     AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
     AWS_STORAGE_BUCKET_NAME = os.environ.get('AWS_STORAGE_BUCKET_NAME')
@@ -211,20 +215,16 @@ if not RUNNING_DEVSERVER:
     # ]
     STATIC_URL = 'https://%s/%s/' % (AWS_S3_CUSTOM_DOMAIN, AWS_LOCATION)
     # MEDIA_URL = 'https://%s/%s/' % (AWS_S3_CUSTOM_DOMAIN, AWS_LOCATION)
-    
+
     STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-    
+
     #Media
-    DEFAULT_FILE_STORAGE = 'quicklane_api.storage_backends.MediaStorage'  
+    DEFAULT_FILE_STORAGE = 'quicklane_api.storage_backends.MediaStorage'
 else:
     STATIC_URL = '/static/'
     MEDIA_URL = '/media/'
 
-
-
-STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'static'),
-)
+STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'), )
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
