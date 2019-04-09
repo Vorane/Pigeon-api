@@ -3,6 +3,11 @@ from rest_framework import serializers
 from store_listing.models import Store, Outlet
 
 
+class OutletInlineSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Outlet
+        fields = ('id',"name",'display_name')
+
 class OutletSerializer(serializers.ModelSerializer):
     class Meta:
         model = Outlet
