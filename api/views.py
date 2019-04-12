@@ -89,7 +89,7 @@ class ConfirmView(APIView):
                     wallet.actual_balance+= transaction.amount
                     wallet.save()
                     updateAvailableBalance.send(sender=Wallet,wallet=wallet.id)
-                    sendSMSReceipt(sender=Wallet,message=build_receipt(transaction.amount), phone_number=transaction.phone_number)
+                    sendSMSReceipt.send(sender=Wallet,message=build_receipt(transaction.amount), phone_number=transaction.phone_number)
                 except Wallet.DoesNotExist:
                     wallet = Wallet.objects.create(phone_number=transaction.phone_number)
                     wallet.save()
