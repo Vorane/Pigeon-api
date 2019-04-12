@@ -118,6 +118,6 @@ def sendSTK(phone_number, amount, orderId):
         checkoutId = json_response["CheckoutRequestID"]
         transaction = PaymentTransaction.objects.create(phone_number=phone_number, checkoutRequestID=checkoutId, amount=amount, order_id=orderId)
         transaction.save()
-        return json_response
+        return transaction.id
     else:
         raise Exception("Error sending MPesa stk push", json_response)
