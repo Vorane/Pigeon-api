@@ -1,7 +1,7 @@
 from django.conf.urls import url, include
 from store_listing.urls import store_listing_urls
 from orders.urls import api_orders_urls as orders_urls
-from .views import ValidateView, ConfirmView, SubmitView
+from .views import ValidateView, ConfirmView, SubmitView, CheckTransaction
 
 from store.urls import store_urls
 
@@ -14,4 +14,6 @@ urlpatterns = [
     url(r'^validate/', ValidateView.as_view(), name='validate'),
     url(r'^confirm/', ConfirmView.as_view(), name='confirm'),
     url(r'^submit/', SubmitView.as_view(), name='submit'),
+    url(r'^checktransaction/', CheckTransaction.as_view(), name='check_transaction'),
+
 ]

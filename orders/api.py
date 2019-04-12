@@ -129,7 +129,7 @@ class CreateOrderView(APIView):
                             },
                             status=400)
 
-                mpesa.sendSTK(request.data["mpesa_number"],total_amount,new_order.id)
+                transaction_id = mpesa.sendSTK(request.data["mpesa_number"],total_amount,new_order.id)
                 # success
                 # completed
                 my_list = OrderOrderItemSerializer(new_order)
@@ -138,7 +138,8 @@ class CreateOrderView(APIView):
                     {
                         'status': 'success',
                         'message': "order has been successfully created",
-                        "order": my_list.data
+                        "order": my_list.data,
+                        "transaction_id": transaction_id
                     },
                     status = 201)
 
