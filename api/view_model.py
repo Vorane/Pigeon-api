@@ -1,5 +1,6 @@
-from .models import Wallet, PaymentTransaction
+from .models import Wallet, PaymentTransaction, OutletWallet
 from orders.models import Order
+from store_listing.models import Outlet
 
 def updateAvailableBalance(wallet_id):
     """ Function to update available balance """
@@ -13,3 +14,14 @@ def updateAvailableBalance(wallet_id):
         wallet.available_balance-=total_amount
         wallet.save()
 
+def transferPaymentToOutlet(amount, outlet_id):
+    outlet = Outlet.objects.filter(id=outlet_id)
+    try:
+        if outlet :
+            outletWallet = OutletWallet.objects.filter(outlet=outlet_id)
+            try:
+                outlet.wallet = None
+            except OutletWallet.DoesNotExist:
+                raise Exception("The wallet account for {} does nor=t exist".format(outlet.display_name))
+    except Outlet.DoesNotExist:
+        raise Exception("The outlet with this id does not exist")
