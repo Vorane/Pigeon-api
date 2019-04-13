@@ -1,4 +1,4 @@
-from .models import Wallet, PaymentTransaction, OutletWallet
+from .models import Wallet, PaymentTransaction, OutletWallet, TransferTransaction
 from orders.models import Order
 from store_listing.models import Outlet
 
@@ -14,13 +14,36 @@ def updateAvailableBalance(wallet_id):
         wallet.available_balance-=total_amount
         wallet.save()
 
-def transferPaymentToOutlet(amount, outlet_id):
+def transferPaymentToOutlet(amount, source_wallet_id, outlet_id):
     outlet = Outlet.objects.filter(id=outlet_id)
     try:
         if outlet :
-            outletWallet = OutletWallet.objects.filter(outlet=outlet_id)
             try:
-                outlet.wallet = None
+                outletWallet = OutletWallet.objects.filter(outlet=outlet_id)
+                if outletWallet and outletWallet.wallet:
+                    outletWallet.wallet.available_balance += amount
+                    outletWallet.save()
+                    source_wallet = Wallet.objects.filter(id=source_wallet_id)
+                    transaction = TransferTransaction(source_wallet = source_wallet, destination_wallet = outletWallet.wallet, amount = amount, isFinished=True, isSuccessFull= True)
+                    transaction.save()
+                elif outletWallet and outletWallet.wallet is None:
+                    wallet = Wallet(phone_number = outlet.name)
+                    wallet.save()
+                    outletWallet.wallet = wallet
+                    outletWallet.save()
+                    transferPaymentToOutlet(amount=amount, source_wallet_id=source_wallet_id, outlet_id=outlet_id)
+                elif outletWallet is None:
+                    try:
+                        wallet = Wallet.objects.filter(phone_number=outlet.name)
+                    except Wallet.DoesNotExist:
+                        wallet = Wallet(phone_number=outlet.name)
+                        wallet.save()
+                    outletWallet = OutletWallet(outlet=outlet, wallet = wallet)
+                    outletWallet.save()
+                    transferPaymentToOutlet(amount=amount, source_wallet_id=source_wallet_id, outlet_id=outlet_id)
+                else:
+                    raise Exception("Could not complete transfer transaction")
+
             except OutletWallet.DoesNotExist:
                 raise Exception("The wallet account for {} does not exist".format(outlet.display_name))
     except Outlet.DoesNotExist:
