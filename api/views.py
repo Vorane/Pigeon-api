@@ -43,7 +43,7 @@ class CheckTransaction(APIView):
             if transaction:
                 return JsonResponse({
                     "message": "ok",
-                    "finished": transaction.isSuccessFull,
+                    "finished": transaction.isFinished,
                     "successful": transaction.isSuccessFull
                 },
                     status=200)
