@@ -22,6 +22,6 @@ def transferPaymentToOutlet(amount, outlet_id):
             try:
                 outlet.wallet = None
             except OutletWallet.DoesNotExist:
-                raise Exception("The wallet account for {} does nor=t exist".format(outlet.display_name))
+                raise Exception("The wallet account for {} does not exist".format(outlet.display_name))
     except Outlet.DoesNotExist:
         raise Exception("The outlet with this id does not exist")
