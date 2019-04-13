@@ -11,6 +11,7 @@ import json
 from rest_framework.status import HTTP_200_OK,HTTP_400_BAD_REQUEST
 from .signals import updateAvailableBalance, sendSMSReceipt
 from commons.smsutils import *
+from django.http import JsonResponse
 
 
 # Create your views here.
@@ -29,6 +30,36 @@ class SubmitView(APIView):
         # b2c()
         message = {"status": "ok"}
         return Response(message, status=HTTP_200_OK)
+
+
+class CheckTransaction(APIView):
+    permission_classes = [AllowAny, ]
+
+    def post(self, request):
+        data = request.data
+        trans_id = data['transaction_id']
+        try:
+            transaction = PaymentTransaction.objects.filter(id=trans_id).get()
+            if transaction:
+                return JsonResponse({
+                    "message": "ok",
+                    "finished": transaction.isFinished,
+                    "successful": transaction.isSuccessFull
+                },
+                    status=200)
+            else:
+                # TODO : Edit order if no transaction is found
+                return JsonResponse({
+                    "message": "Error. Transaction not found",
+                    "status": False
+                },
+                    status=400)
+        except PaymentTransaction.DoesNotExist:
+            return JsonResponse({
+                "message":"Server Error. Transaction not found",
+                "status": False
+            },
+            status=400)
 
 
 class ConfirmView(APIView):
@@ -58,7 +89,7 @@ class ConfirmView(APIView):
                     wallet.actual_balance+= transaction.amount
                     wallet.save()
                     updateAvailableBalance.send(sender=Wallet,wallet=wallet.id)
-                    sendSMSReceipt(sender=Wallet,message=build_receipt(transaction.amount), phone_number=transaction.phone_number)
+                    sendSMSReceipt.send(sender=Wallet,message=build_receipt(transaction.amount), phone_number=transaction.phone_number)
                 except Wallet.DoesNotExist:
                     wallet = Wallet.objects.create(phone_number=transaction.phone_number)
                     wallet.save()
@@ -68,7 +99,7 @@ class ConfirmView(APIView):
             requestId = body.get('stkCallback').get('CheckoutRequestID')
             transaction = PaymentTransaction.objects.filter(checkoutRequestID=requestId).get()
             if transaction:
-                transaction.isFinished = False
+                transaction.isFinished = True
                 transaction.isSuccessFull = False
                 transaction.save()
 
