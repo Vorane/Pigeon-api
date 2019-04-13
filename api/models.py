@@ -3,6 +3,8 @@ from __future__ import unicode_literals
 
 from django.db import models
 from commons.models import BaseModel
+from store_listing.models import Outlet
+import uuid
 
 
 # Create your models here.
@@ -32,3 +34,18 @@ class Wallet(BaseModel):
 
     def __str__(self):
         return self.phone_number
+
+class OutletWallet(BaseModel):
+    outlet = models.ForeignKey(Outlet, on_delete=None, default=0, related_name='outlet_wallet')
+    wallet = models.ForeignKey(Wallet, on_delete=None, default=0, related_name='wallet_outlet')
+
+
+class TransferTransaction(BaseModel):
+    source_wallet = models.ForeignKey(Wallet, on_delete=None, default=0, related_name='source_wallet')
+    destination_wallet = models.ForeignKey(Wallet, on_delete=None, default=0, related_name='dest_wallet')
+    amount = models.DecimalField(('amount'), max_digits=6, decimal_places=2, default=0)
+    isFinished = models.BooleanField(default=False)
+    isSuccessFull = models.BooleanField(default=False)
+
+    def __str__(self):
+        return "{} - {} - Amount : {}".format(self.source_wallet.phone_number, self.destination_wallet.phone_number, self.amount)
