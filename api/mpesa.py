@@ -81,7 +81,7 @@ def register_url(access_token):
     print (response.text)
 
 
-def sendSTK(phone_number, amount, orderId):
+def sendSTK(phone_number, amount, orderId, transaction_id=None):
     access_token = get_token()
     time_now = datetime.datetime.now().strftime("%Y%m%d%H%I%S")
 
@@ -116,8 +116,14 @@ def sendSTK(phone_number, amount, orderId):
     print(json_response)
     if json_response["ResponseCode"] == "0":
         checkoutId = json_response["CheckoutRequestID"]
-        transaction = PaymentTransaction.objects.create(phone_number=phone_number, checkoutRequestID=checkoutId, amount=amount, order_id=orderId)
-        transaction.save()
-        return transaction.id
+        if transaction_id:
+            transaction = PaymentTransaction.objects.filter(id=transaction_id)
+            transaction.checkoutRequestID = checkoutId
+            transaction.save()
+            return transaction.id
+        else:
+            transaction = PaymentTransaction.objects.create(phone_number=phone_number, checkoutRequestID=checkoutId, amount=amount, order_id=orderId)
+            transaction.save()
+            return transaction.id
     else:
         raise Exception("Error sending MPesa stk push", json_response)

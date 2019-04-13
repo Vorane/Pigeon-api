@@ -62,6 +62,37 @@ class CheckTransaction(APIView):
             status=400)
 
 
+class RetryTransaction(APIView):
+    permission_classes = [AllowAny, ]
+
+    def post(self, request):
+        trans_id = request.data['transaction_id']
+        try:
+            transaction = PaymentTransaction.objects.filter(id=trans_id).get()
+            if transaction and transaction.isSuccessFull:
+                return JsonResponse({
+                    "message": "ok",
+                    "finished": transaction.isFinished,
+                    "successful": transaction.isSuccessFull
+                },
+                    status=200)
+            else :
+                response = sendSTK(phone_number=transaction.phone_number, amount= transaction.amount, orderId= transaction.order_id, transaction_id= trans_id)
+                return JsonResponse({
+                    "message": "ok",
+                    "transaction_id": response
+                },
+                    status=200)
+
+        except PaymentTransaction.DoesNotExist:
+            return JsonResponse({
+                "message":"Error. Transaction not found",
+                "status": False
+            },
+            status=400)
+
+
+
 class ConfirmView(APIView):
     permission_classes = [AllowAny,]
 
