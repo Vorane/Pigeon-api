@@ -1,4 +1,5 @@
 import uuid, os
+from orders.models import Order
 
 
 def get_image_path(instance, filename):
@@ -13,6 +14,16 @@ def validate_object(my_object, fields):
             return {"status": False, "field": field}
     else:
         return {"status": True}
+
+
+def update_order_status(order_id, status):
+    try:
+        order = Order.objects.filter(id=order_id).get()
+        if order:
+            order.order_status = status
+            order.save()
+    except Order.DoesNotExist:
+        raise Exception("Order with id {} not found".format(order_id))
 
 
 class OrderUtils:
