@@ -13,3 +13,18 @@ def validate_object(my_object, fields):
             return {"status": False, "field": field}
     else:
         return {"status": True}
+
+
+ORDER_STATUSES = (
+    ('CRT', 'Created'),
+    ('AWF', 'Awaiting Funds'),
+    ('IFF', 'Insufficient Funds Failure'),
+    ('RFP', 'Ready For Processing'),
+    ('IPR', 'In Processing'),
+    ('ASC', 'Awaiting Substitution Consent'),
+    ('ICH', 'In Checkout'),
+    ('CUS', 'Cancelled By User'),
+    ('RPK', 'Ready For Pickup'),
+    ('PKD', 'Picked'),
+    ('NPK', 'Not Picked'),
+)
