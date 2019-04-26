@@ -118,7 +118,7 @@ def sendSTK(phone_number, amount, orderId, transaction_id=None):
     print(json_response)
     if json_response["ResponseCode"] == "0":
         checkoutId = json_response["CheckoutRequestID"]
-        update_order_status(status=OrderUtils.AWAITING_FUNDS)
+        update_order_status(order_id=orderId, status=OrderUtils.AWAITING_FUNDS)
 
         if transaction_id:
             transaction = PaymentTransaction.objects.filter(id=transaction_id)
