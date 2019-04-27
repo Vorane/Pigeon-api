@@ -1,15 +1,18 @@
 from .models import Wallet, PaymentTransaction, OutletWallet, TransferTransaction
 from orders.models import Order
 from store_listing.models import Outlet
+from commons.app_constants import AWAITING_FUNDS, READY_FOR_PROCESSING
+from commons.orderutils import update_order_status
 
 def updateAvailableBalance(wallet_id):
     """ Function to update available balance """
     wallet = Wallet.objects.filter(wallet_id=wallet_id).get()
     if wallet:
-        orders = Order.objects.filter(wallet=wallet,order_status="served").get()
+        orders = Order.objects.filter(wallet=wallet,order_status=AWAITING_FUNDS).get()
         total_amount = 0
         for order in orders:
             total_amount+= order.totalAmount()
+            update_order_status(order_id=order.id, status=READY_FOR_PROCESSING)
         print('Total amount for orders is {}'.format(total_amount))
         wallet.available_balance-=total_amount
         wallet.save()

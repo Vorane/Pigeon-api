@@ -129,8 +129,6 @@ class ConfirmView(APIView):
                     wallet.actual_balance+= transaction.amount
                     wallet.save()
 
-                update_order_status(order_id=transaction.order_id, status=READY_FOR_PROCESSING)
-
                 updateAvailableBalance.send(sender=Wallet, wallet=wallet.id)
             sendSMSReceipt.send(sender=Wallet, message=build_receipt(transaction.amount),
                                 phone_number="+{}".format(transaction.phone_number))
