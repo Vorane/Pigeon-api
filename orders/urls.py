@@ -1,6 +1,6 @@
 from django.conf.urls import url, include
 
-from orders.api import OutletOrdersView, OrderDetailsView, CreateOrderView, UpdateOrdersView
+from orders.api import OutletOrdersView, OrderDetailsView, CreateOrderView, UpdateOrdersView, UpdateOrderStatusView
 
 app_name = "orders"
 
@@ -22,4 +22,7 @@ api_orders_urls = [
     url(r'^(?P<id>\d+)/$',
         OrderDetailsView.as_view(),
         name='outlet-products-view'),
+    url(r'^update_order_status/',
+        UpdateOrderStatusView.as_view(),
+        name='retry_transaction'),
 ]

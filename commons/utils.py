@@ -31,6 +31,7 @@ class OrderUtils:
     AWAITING_FUNDS = 'AWF'
     INSUFFICIENT_FUNDS_FAILURE = 'IFF'
     READY_FOR_PROCESSING = 'RFP'
+    RECEIVED_BY_STORE = 'RBS'
     IN_PROCESSING = 'IPR'
     AWAITING_SUBSTITUTION = 'ASC'
     IN_CHECKOUT = 'ICH'
@@ -44,6 +45,7 @@ class OrderUtils:
         (AWAITING_FUNDS, 'Awaiting Funds'),
         (INSUFFICIENT_FUNDS_FAILURE, 'Insufficient Funds Failure'),
         (READY_FOR_PROCESSING, 'Ready For Processing'),
+        (RECEIVED_BY_STORE, 'Received By Store'),
         (IN_PROCESSING, 'In Processing'),
         (AWAITING_SUBSTITUTION, 'Awaiting Substitution Consent'),
         (IN_CHECKOUT, 'In Checkout'),

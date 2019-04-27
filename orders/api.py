@@ -1,4 +1,4 @@
-from rest_framework.generics import RetrieveAPIView ,ListAPIView
+from rest_framework.generics import RetrieveAPIView ,ListAPIView, RetrieveUpdateDestroyAPIView
 from rest_framework.views import APIView
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from django.http import JsonResponse
@@ -14,6 +14,7 @@ from orders.models import Order, OrderItem
 from api.models import Wallet
 from orders.serializers import OutletOrdersSerializers, OrderOrderItemSerializer, OrderInlineSerializer, OrderDetailSerializer
 from .filters import OrderFilter
+from commons.utils import OrderUtils, update_order_status
 
 def validate_object(my_object, fields):
     for field in fields:
@@ -214,6 +215,44 @@ class UpdateOrdersView(APIView):
                 },
                 status = 400)           
 
+
+class UpdateOrderStatusView(APIView):
+    permission_classes = [AllowAny, ]
+
+    def post(self, request):
+        order_id = request.data['order_id']
+        status = request.data['order_status']
+
+        if status == OrderUtils.RECEIVED_BY_STORE:
+            update_order_status(order_id=order_id, status=status)
+        elif status == OrderUtils.IN_PROCESSING:
+            update_order_status(order_id=order_id, status=status)
+        elif status == OrderUtils.AWAITING_SUBSTITUTION:
+            update_order_status(order_id=order_id, status=status)
+        elif status == OrderUtils.CANCELLED_BY_USER:
+            update_order_status(order_id=order_id, status=status)
+        elif status == OrderUtils.IN_CHECKOUT:
+            update_order_status(order_id=order_id, status=status)
+        elif status == OrderUtils.READY_FOR_PICKUP:
+            update_order_status(order_id=order_id, status=status)
+        elif status == OrderUtils.PICKED:
+            update_order_status(order_id=order_id, status=status)
+        elif status == OrderUtils.PICKED:
+            update_order_status(order_id=order_id, status=status)
+        else:
+            return JsonResponse(
+                {
+                    'status': 'bad request',
+                    'message': "Order status {} is not supported".format(status)
+                },
+                status=400)
+
+        return JsonResponse(
+            {
+                'status': 'ok',
+                'message': "Order updated Successfully"
+            },
+            status=200)
 
 
 
