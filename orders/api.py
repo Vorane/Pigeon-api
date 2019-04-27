@@ -14,7 +14,8 @@ from orders.models import Order, OrderItem
 from api.models import Wallet
 from orders.serializers import OutletOrdersSerializers, OrderOrderItemSerializer, OrderInlineSerializer, OrderDetailSerializer
 from .filters import OrderFilter
-from commons.utils import OrderUtils, update_order_status
+from commons.app_constants import *
+from commons.orderutils import update_order_status
 
 def validate_object(my_object, fields):
     for field in fields:
@@ -223,21 +224,21 @@ class UpdateOrderStatusView(APIView):
         order_id = request.data['order_id']
         status = request.data['order_status']
 
-        if status == OrderUtils.RECEIVED_BY_STORE:
+        if status == RECEIVED_BY_STORE:
             update_order_status(order_id=order_id, status=status)
-        elif status == OrderUtils.IN_PROCESSING:
+        elif status == IN_PROCESSING:
             update_order_status(order_id=order_id, status=status)
-        elif status == OrderUtils.AWAITING_SUBSTITUTION:
+        elif status == AWAITING_SUBSTITUTION:
             update_order_status(order_id=order_id, status=status)
-        elif status == OrderUtils.CANCELLED_BY_USER:
+        elif status == CANCELLED_BY_USER:
             update_order_status(order_id=order_id, status=status)
-        elif status == OrderUtils.IN_CHECKOUT:
+        elif status == IN_CHECKOUT:
             update_order_status(order_id=order_id, status=status)
-        elif status == OrderUtils.READY_FOR_PICKUP:
+        elif status == READY_FOR_PICKUP:
             update_order_status(order_id=order_id, status=status)
-        elif status == OrderUtils.PICKED:
+        elif status == PICKED:
             update_order_status(order_id=order_id, status=status)
-        elif status == OrderUtils.PICKED:
+        elif status == PICKED:
             update_order_status(order_id=order_id, status=status)
         else:
             return JsonResponse(

@@ -8,14 +8,15 @@ from django.db import models
 from commons.models import  BaseModel 
 from product_listing.models import Product
 from store_listing.models import Outlet
-from commons.utils import validate_object, OrderUtils
+from commons.utils import validate_object
+from commons.app_constants import *
 from api.models import Wallet
 # Create your models here.
 
 class Order(BaseModel):
     outlet = models.ForeignKey(
         Outlet, on_delete=models.CASCADE, related_name='outlet_order')
-    order_status = models.CharField(max_length=25, choices=OrderUtils.ORDER_STATUSES, default=OrderUtils.CREATED)
+    order_status = models.CharField(max_length=25, choices=ORDER_STATUSES, default=CREATED)
     comment = models.CharField(max_length=255)
     pickup_time = models.DateTimeField()
     wallet = models.ForeignKey(Wallet, on_delete=models.DO_NOTHING, related_name="order_wallet_order", null=True)
