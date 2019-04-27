@@ -5,6 +5,8 @@ import requests
 from requests.auth import HTTPBasicAuth
 from base64 import b64encode
 from .models import PaymentTransaction
+from orders.models import Order
+from commons.utils import OrderUtils, update_order_status
 
 from cryptography import x509
 from cryptography.hazmat.backends import default_backend
@@ -116,6 +118,8 @@ def sendSTK(phone_number, amount, orderId, transaction_id=None):
     print(json_response)
     if json_response["ResponseCode"] == "0":
         checkoutId = json_response["CheckoutRequestID"]
+        update_order_status(order_id=orderId, status=OrderUtils.AWAITING_FUNDS)
+
         if transaction_id:
             transaction = PaymentTransaction.objects.filter(id=transaction_id)
             transaction.checkoutRequestID = checkoutId

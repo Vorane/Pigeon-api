@@ -24,4 +24,4 @@ def finish_callback(error, response):
 def send_sms(message, recepient):
     sms.send(message, [recepient], callback=finish_callback)
 
-send_sms("hi","+254716544925")
+# send_sms("hi","+254716544925")

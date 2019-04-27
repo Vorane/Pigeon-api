@@ -7,11 +7,13 @@ from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated, AllowAny, IsAdminUser
 from .models import PaymentTransaction, Wallet
 from .mpesa import sendSTK
+from .sms import *
 import json
 from rest_framework.status import HTTP_200_OK,HTTP_400_BAD_REQUEST
 from .signals import updateAvailableBalance, sendSMSReceipt
 from commons.smsutils import *
 from django.http import JsonResponse
+from commons.utils import update_order_status, OrderUtils
 
 
 # Create your views here.
@@ -113,17 +115,24 @@ class ConfirmView(APIView):
                 transaction.isFinished = True
                 transaction.isSuccessFull = True
                 transaction.save()
+                wallet = None
                 try:
                     wallet = Wallet.objects.filter(phone_number=transaction.phone_number).get()
                     if not wallet:
                         wallet = Wallet.objects.create(phone_number=transaction.phone_number)
                     wallet.actual_balance+= transaction.amount
                     wallet.save()
-                    updateAvailableBalance.send(sender=Wallet,wallet=wallet.id)
-                    sendSMSReceipt.send(sender=Wallet,message=build_receipt(transaction.amount), phone_number=transaction.phone_number)
+
                 except Wallet.DoesNotExist:
                     wallet = Wallet.objects.create(phone_number=transaction.phone_number)
+                    wallet.actual_balance+= transaction.amount
                     wallet.save()
+
+                update_order_status(order_id=transaction.order_id, status=OrderUtils.READY_FOR_PROCESSING)
+
+                updateAvailableBalance.send(sender=Wallet, wallet=wallet.id)
+            sendSMSReceipt.send(sender=Wallet, message=build_receipt(transaction.amount),
+                                phone_number="+{}".format(transaction.phone_number))
 
         else:
             print ('unsuccessfull')
