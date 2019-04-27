@@ -13,6 +13,7 @@ from rest_framework.status import HTTP_200_OK,HTTP_400_BAD_REQUEST
 from .signals import updateAvailableBalance, sendSMSReceipt
 from commons.smsutils import *
 from django.http import JsonResponse
+from commons.utils import update_order_status, OrderUtils
 
 
 # Create your views here.
@@ -126,6 +127,8 @@ class ConfirmView(APIView):
                     wallet = Wallet.objects.create(phone_number=transaction.phone_number)
                     wallet.actual_balance+= transaction.amount
                     wallet.save()
+
+                update_order_status(order_id=transaction.order_id, status=OrderUtils.READY_FOR_PROCESSING)
 
                 updateAvailableBalance.send(sender=Wallet, wallet=wallet.id)
             sendSMSReceipt.send(sender=Wallet, message=build_receipt(transaction.amount),
