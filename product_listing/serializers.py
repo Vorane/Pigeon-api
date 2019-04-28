@@ -39,8 +39,8 @@ class SubCategoryProductListSerializer(ModelSerializer):
 
 
 class CollectionProductSerializer(ModelSerializer):
+    product = ProductSerializer()
+
     class Meta:
         model = CollectionProduct
         fields = "__all__"
-
-
