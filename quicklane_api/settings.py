@@ -69,6 +69,7 @@ INSTALLED_APPS = [
     'storages',
     'authentication.apps.AuthenticationConfig',
     'store.apps.StoreConfig',
+    'product_collections.apps.ProductCollectionsConfig',
     'django_filters',
 ]
 
