@@ -111,14 +111,14 @@ class ConfirmView(APIView):
         if resultcode == 0:
             print('Payment successful')
             requestId = body.get('stkCallback').get('CheckoutRequestID')
-            transaction =  PaymentTransaction.objects.filter(checkoutRequestID=requestId).get()
+            transaction =  PaymentTransaction.objects.get(checkoutRequestID=requestId)
             if transaction:
                 transaction.isFinished = True
                 transaction.isSuccessFull = True
                 transaction.save()
                 wallet = None
                 try:
-                    wallet = Wallet.objects.filter(phone_number=transaction.phone_number).get()
+                    wallet = Wallet.objects.get(phone_number=transaction.phone_number)
                     if not wallet:
                         wallet = Wallet.objects.create(phone_number=transaction.phone_number)
                     wallet.actual_balance+= transaction.amount
@@ -136,7 +136,7 @@ class ConfirmView(APIView):
         else:
             print ('unsuccessfull')
             requestId = body.get('stkCallback').get('CheckoutRequestID')
-            transaction = PaymentTransaction.objects.filter(checkoutRequestID=requestId).get()
+            transaction = PaymentTransaction.objects.get(checkoutRequestID=requestId)
             if transaction:
                 transaction.isFinished = True
                 transaction.isSuccessFull = False

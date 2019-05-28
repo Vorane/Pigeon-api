@@ -32,7 +32,7 @@ class InventoryListView(ListAPIView):
         an outlet as determined by the outlet_id portion of the URL.
         """
         outlet_id = self.kwargs['outlet_id']
-        return Inventory.objects.filter(outlet__id=outlet_id).order_by('product.display_name')
+        return Inventory.objects.filter(outlet__id=outlet_id).order_by('product__display_name')
     
     filter_backends = (filters.SearchFilter,)
     search_fields = ('product__display_name',)
