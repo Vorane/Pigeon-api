@@ -1,5 +1,6 @@
 from django.core.files import File
 import os
+import json
 
 from categories.models import SubCategory, Category, CategorySubCategory
 from store_listing.models import Store, Outlet
@@ -8,7 +9,6 @@ from .models import Product, SubCategoryProduct, Inventory
 
 def get_productsjson(filepath):
     """convert json to products"""
-    import json
 
     with open(filepath, "rb") as data:
         # array =  data = open(filepath, "r")
@@ -97,4 +97,44 @@ def get_productsjson(filepath):
                     new_product_inventory = Inventory(product=new_product, outlet=outlet)
                     new_product_inventory.save()
 
+            print( str("successfully uploaded images for " + str(image_success) +" products"))
+
+def update_productsjson():
+    """Update product images where it is missing"""
+    
+    all_products = Product.objects.all()
+
+    #set the home path where the images are found
+    home_path= os.environ.get('HOME_PATH')
+    image_success = 0
+
+    for product in all_products:
+        if not product.thumbnail:
+            try:
+                # import pdb
+                # pdb.set_trace()
+                product.thumbnail.save( str( product["Image"]+'.png'), File(open( str( home_path + '/photos/' + product["Image"]+".png") , 'rb')))
+                print( "success" )
+                image_success = image_success + 1
+            except Exception as e:
+                print("f")
+            try:
+                product.thumbnail.save( str( product["Image"]+'.jpg'), File(open( home_path + '/photos/' + product["Image"]+".jpg" , 'rb')))
+                print( "success" )
+                image_success = image_success + 1
+            except:
+                print( "f" )                    
+            try:
+                product.thumbnail.save( str( product["Image"]+'.jpeg'), File(open( home_path + '/photos/' + product["Image"]+".jpeg" , 'rb')))
+                print( "success" )
+                image_success = image_success + 1
+            except:
+                print( "f" )                    
+            try:
+                product.thumbnail.save( str( product["Image"]+'.JPG'), File(open( home_path + '/photos/' + product["Image"]+".JPG" , 'rb')))
+                print( "success" )
+                image_success = image_success + 1
+            except Exception as e:
+                print( "f")
+            
             print( str("successfully uploaded images for " + str(image_success) +" products"))
