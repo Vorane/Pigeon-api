@@ -138,15 +138,21 @@ def update_productsjson():
     image_success = 0
 
     for product in all_products:
-        if not product.thumbnail:
+
+        if not product.thumbnail:            
+            #extract the name of the product
+            product_name = product.name
+            product_name = product_name.replace(",", "")
+            print(product_name)
+
             try:
                 # import pdb
                 # pdb.set_trace()
                 product.thumbnail.save(
-                    str(product["Image"] + '.png'),
+                    str(product_name + '.png'),
                     File(
                         open(
-                            str(home_path + '/photos/' + product["Image"] +
+                            str(home_path + '/photos/' + product_name +
                                 ".png"), 'rb')))
                 print("success")
                 image_success = image_success + 1
@@ -154,33 +160,30 @@ def update_productsjson():
                 print("f")
             try:
                 product.thumbnail.save(
-                    str(product["Image"] + '.jpg'),
+                    str(product_name + '.jpg'),
                     File(
-                        open(
-                            home_path + '/photos/' + product["Image"] + ".jpg",
-                            'rb')))
+                        open(home_path + '/photos/' + product_name + ".jpg",
+                             'rb')))
                 print("success")
                 image_success = image_success + 1
             except:
                 print("f")
             try:
                 product.thumbnail.save(
-                    str(product["Image"] + '.jpeg'),
+                    str(product_name + '.jpeg'),
                     File(
-                        open(
-                            home_path + '/photos/' + product["Image"] +
-                            ".jpeg", 'rb')))
+                        open(home_path + '/photos/' + product_name + ".jpeg",
+                             'rb')))
                 print("success")
                 image_success = image_success + 1
             except:
                 print("f")
             try:
                 product.thumbnail.save(
-                    str(product["Image"] + '.JPG'),
+                    str(product_name + '.JPG'),
                     File(
-                        open(
-                            home_path + '/photos/' + product["Image"] + ".JPG",
-                            'rb')))
+                        open(home_path + '/photos/' + product_name + ".JPG",
+                             'rb')))
                 print("success")
                 image_success = image_success + 1
             except Exception as e:
