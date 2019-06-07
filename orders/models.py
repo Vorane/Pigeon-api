@@ -36,6 +36,7 @@ class Order(BaseModel):
     delivery_coordinates = models.CharField(
         max_length=50, blank=True, null=True, validators=[geo])
     delivery_address = models.CharField(max_length=256, blank=True, null=True)
+    recorded_total_amount = models.FloatField(default=0, blank=True, null=True)
 
     def totalAmount(self):
         order_items = OrderItem.objects.filter(order=self).get()
