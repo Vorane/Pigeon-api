@@ -15,7 +15,7 @@ from api.models import Wallet
 from orders.serializers import OutletOrdersSerializers, OrderOrderItemSerializer, OrderInlineSerializer, OrderDetailSerializer
 from .filters import OrderFilter
 from commons.app_constants import *
-from commons.orderutils import update_order_status
+from orders.orderutils import update_order_status
 
 
 def validate_object(my_object, fields):

@@ -2,7 +2,7 @@ from .models import Wallet, PaymentTransaction, OutletWallet, TransferTransactio
 from orders.models import Order
 from store_listing.models import Outlet
 from commons.app_constants import AWAITING_FUNDS, READY_FOR_PROCESSING
-from commons.orderutils import update_order_status
+from orders.orderutils import update_order_status
 
 def updateAvailableBalance(wallet_id):
     """ Function to update available balance """

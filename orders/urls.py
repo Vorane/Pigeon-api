@@ -22,7 +22,7 @@ api_orders_urls = [
     url(r'^(?P<id>\d+)/$',
         OrderDetailsView.as_view(),
         name='outlet-products-view'),
-    url(r'^update_order_status/',
+    url(r'^update-order-status/',
         UpdateOrderStatusView.as_view(),
         name='retry_transaction'),
 ]

@@ -7,7 +7,7 @@ from base64 import b64encode
 from .models import PaymentTransaction
 from orders.models import Order
 from commons.app_constants import *
-from commons.orderutils import update_order_status
+from orders.orderutils import update_order_status
 from cryptography import x509
 from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives.asymmetric.padding import PKCS1v15
