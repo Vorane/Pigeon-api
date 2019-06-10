@@ -125,7 +125,7 @@ class CreateOrderView(APIView):
                 wallet.save()
                 new_order = Order.objects.create(
                     outlet=outlet,
-                    order_status="INITIALIZED",
+                    order_status=CREATED,
                     comment=request.data["comments"],
                     pickup_time=request.data["pickup_time"],
                     wallet=wallet)
