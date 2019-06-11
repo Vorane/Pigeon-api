@@ -10,6 +10,9 @@ CANCELLED_BY_USER = 'CUS'
 READY_FOR_PICKUP = 'RPK'
 PICKED = 'PKD'
 NOT_PICKED = 'NPK'
+READY_FOR_DELIVERY = "RFD"
+DELIVERY_IN_PROGRESS = "DIP"
+DELIVERED = "DVD"
 
 ORDER_STATUSES = (
     (CREATED, 'Created'),
@@ -24,4 +27,7 @@ ORDER_STATUSES = (
     (READY_FOR_PICKUP, 'Ready For Pickup'),
     (PICKED, 'Picked'),
     (NOT_PICKED, 'Not Picked'),
+    (READY_FOR_DELIVERY, 'Ready for delivery'),
+    (DELIVERY_IN_PROGRESS, 'Delivery in progress'),
+    (DELIVERED, 'Delivered'),
 )
