@@ -76,7 +76,11 @@ class CreateOrderView(APIView):
 
             # check if items property exists
             valid = validate_object(request.data, [
-                "items", "comments", "outlet_id", "mpesa_number", "pickup_time"
+                "items",
+                "comments",
+                "outlet_id",
+                "mpesa_number",
+                "pickup_time",
             ])
             if not valid["status"]:
                 return JsonResponse(
@@ -137,6 +141,9 @@ class CreateOrderView(APIView):
                 if "delivery_address" in request.data.keys():
                     new_order.delivery_address = request.data[
                         "delivery_address"]
+                if "order_contact_person" in request.data.keys():
+                    new_order.order_contact_person = request.data[
+                        "order_contact_person"]
                 new_order.save()
 
                 # create the order items
@@ -165,13 +172,14 @@ class CreateOrderView(APIView):
                 # completed
                 my_list = OrderOrderItemSerializer(new_order)
                 # my_json_list = json.dumps(my_list)
-                return JsonResponse({
-                    'status': 'success',
-                    'message': "order has been successfully created",
-                    "order": my_list.data,
-                    # "transaction_id": transaction_id
-                },
-                                    status=201)
+                return JsonResponse(
+                    {
+                        'status': 'success',
+                        'message': "order has been successfully created",
+                        "order": my_list.data,
+                        # "transaction_id": transaction_id
+                    },
+                    status=201)
 
             else:
                 return JsonResponse({
