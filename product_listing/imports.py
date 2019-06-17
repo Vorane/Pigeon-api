@@ -128,6 +128,62 @@ def get_productsjson(filepath):
                         subcategory["name"]))
 
 
+def create_store_inventory(filepath, store_id):
+    """convert json to products"""
+
+    with open(filepath, "rb") as data:
+        # array =  data = open(filepath, "r")
+
+        data = json.loads(data.read())
+
+
+        #loop through the categories
+        for category in data:
+            # Get the relevant Store
+            store = Store.objects.get(id=store_id)
+
+            # create a new category
+            cat = Category()
+            cat.name = category["name"]
+            cat.display_name = category["name"]
+            cat.color = category["color"]
+            cat.store = store
+            cat.save()
+
+            # read all subcategories in the data
+            for subcategory in category["subcategories"]:
+                # create a new subcategory
+                subcat = SubCategory()
+                subcat.name = subcategory["name"]
+                subcat.display_name = subcategory["name"]
+                subcat.color = "#ffffff"
+                subcat.store = store
+                subcat.save()
+
+                # create a mapping between category & subcategory
+                new_cat_subcat = CategorySubCategory(
+                    category=cat, sub_category=subcat)
+                new_cat_subcat.save()
+
+                # loop through products and create mapping
+                for product in subcategory["products"]:
+                    # try to find the product
+                    found_product = Product.objects.filter(name=product["Name"]).first()
+                    if found_product:
+                        print (product["Name"])
+
+                        # create a mapping for the product and subcategory
+                        new_subcategory_product = SubCategoryProduct(
+                            sub_category=subcat, product=found_product)
+                        new_subcategory_product.save()
+
+                        # create a inventory instance for the product for all outlets
+                        outlets = Outlet.objects.all().filter(store=store)
+                        for outlet in outlets:
+                            new_product_inventory = Inventory(product=found_product, outlet=outlet)
+                            new_product_inventory.save()
+
+
 def update_productsjson():
     """Update product images where it is missing"""
 
@@ -139,7 +195,7 @@ def update_productsjson():
 
     for product in all_products:
 
-        if not product.thumbnail:            
+        if not product.thumbnail:
             #extract the name of the product
             product_name = product.name
             product_name = product_name.replace(",", "")
