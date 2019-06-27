@@ -119,7 +119,9 @@ def get_productsjson(filepath):
                     outlets = Outlet.objects.all().filter(store=store)
                     for outlet in outlets:
                         new_product_inventory = Inventory(
-                            product=new_product, outlet=outlet)
+                            product=new_product,
+                            outlet=outlet,
+                            price=product["Price"])
                         new_product_inventory.save()
 
                 print(
@@ -135,7 +137,6 @@ def create_store_inventory(filepath, store_id):
         # array =  data = open(filepath, "r")
 
         data = json.loads(data.read())
-
 
         #loop through the categories
         for category in data:
@@ -168,9 +169,10 @@ def create_store_inventory(filepath, store_id):
                 # loop through products and create mapping
                 for product in subcategory["products"]:
                     # try to find the product
-                    found_product = Product.objects.filter(name=product["Name"]).first()
+                    found_product = Product.objects.filter(
+                        name=product["Name"]).first()
                     if found_product:
-                        print (product["Name"])
+                        print(product["Name"])
 
                         # create a mapping for the product and subcategory
                         new_subcategory_product = SubCategoryProduct(
@@ -180,7 +182,8 @@ def create_store_inventory(filepath, store_id):
                         # create a inventory instance for the product for all outlets
                         outlets = Outlet.objects.all().filter(store=store)
                         for outlet in outlets:
-                            new_product_inventory = Inventory(product=found_product, outlet=outlet)
+                            new_product_inventory = Inventory(
+                                product=found_product, outlet=outlet)
                             new_product_inventory.save()
 
 
@@ -248,3 +251,14 @@ def update_productsjson():
             print(
                 str("successfully uploaded images for " + str(image_success) +
                     " products"))
+
+
+def copy_product_price_to_inventory():
+    #get all inventory relating to a product and
+    all_products = Product.objects.all()
+    for product in all_products:
+        product_inventories = product.product_inventory_product.all()
+        for inventory in product_inventories:
+            #update the inventory price to the product price
+            inventory.price = product.price
+            inventory.save()
