@@ -72,7 +72,9 @@ class Inventory(BaseModel):
         related_name="product_outlet_product")
     quantity = models.IntegerField(blank=False, null=False, default=0)
     isOffered = models.BooleanField(default=True, blank=False)
+    price = models.IntegerField(blank=False, null=False, default=1)
 
     def __str__(self):
         return (str(self.outlet.display_name) + " - " + str(
-            self.product.display_name) + " - " + str(self.quantity))
+            self.product.display_name) + " - " + str(self.quantity) + " - " +
+                str(self.price))
