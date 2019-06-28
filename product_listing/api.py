@@ -12,6 +12,7 @@ from product_listing.serializers import ProductSerializer, InventorySerializer
 from commons.utils import validate_object
 
 
+#TODO phase out subCategoryProductsView for OutletSubcategoryView
 class SubCategoryProductsView(RetrieveAPIView):
     permission_classes = [
         AllowAny,
@@ -21,6 +22,26 @@ class SubCategoryProductsView(RetrieveAPIView):
     lookup_url_kwarg = "subcategory_id"
     lookup_field = "id"
     serializer_class = SubCategoryProductListSerializer
+
+
+class OutletSubcategoryInventoryView(ListAPIView):
+    permission_classes = [
+        AllowAny,
+    ]
+    model = Inventory
+    serializer_class = InventorySerializer
+
+    def get_queryset(self):
+        """
+        This view should return a list of all the inventory for
+        an outlet that belong to the subcategory submitted.
+        """
+        outlet_id = self.kwargs['outlet_id']
+        subcategory_id = self.kwargs['subcategory_id']
+        return Inventory.objects.filter(
+            outlet__id=outlet_id,
+            isOffered=True,
+            product__product_subcategory_product__sub_category=subcategory_id)
 
 
 class ProductListView(ListAPIView):
@@ -72,7 +93,8 @@ class UpdateProductPrice(APIView):
                     status=400)
 
             try:
-                found_product = Product.objects.get(id=request.data["product_id"])
+                found_product = Product.objects.get(
+                    id=request.data["product_id"])
                 #get the product with corresponding id
                 #update the product and save
                 found_product.price = request.data["new_price"]
@@ -82,9 +104,9 @@ class UpdateProductPrice(APIView):
                         'status': 'product successfully update',
                         'message': "The product has been successfully updated"
                     },
-                        status=200)
+                    status=200)
 
-            except Product.DoesNotExist:                
+            except Product.DoesNotExist:
                 #show error for product not found
                 return JsonResponse({
                     'status':
