@@ -44,6 +44,25 @@ class OutletSubcategoryInventoryView(ListAPIView):
             product__product_subcategory_product__sub_category=subcategory_id)
 
 
+class StoreCollectionInventoryView(ListAPIView):
+    permission_classes = [
+        AllowAny,
+    ]
+    model = Inventory
+    serializer_class = InventorySerializer
+
+    def get_queryset(self):
+        """
+        This view should return a list of all the inventory for
+        an outlet that belong to the subcategory submitted.
+        """
+        store_id = self.kwargs['store_id']
+        return Inventory.objects.filter(
+            isOffered=True,
+            product__product_colection_product__collection__store=store_id,
+        )
+
+
 class ProductListView(ListAPIView):
     permission_classes = [
         AllowAny,

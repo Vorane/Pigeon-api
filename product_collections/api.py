@@ -7,6 +7,7 @@ from store_listing.models import Store
 from product_collections.serializers import CollectionProductsDetailSerializer
 
 
+#TODO phose out and switch completely to StoreCollectionInventoryView
 class StoreCollectionsView(ListAPIView):
     #show a list of all collections in a specific store
     permission_classes = [
