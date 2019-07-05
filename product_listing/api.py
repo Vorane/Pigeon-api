@@ -5,7 +5,7 @@ from rest_framework.generics import RetrieveAPIView, ListAPIView
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework import filters
 
-from .serializers import SubCategoryProductListSerializer
+from .serializers import SubCategoryProductListSerializer, ProductInventorySerializer
 from categories.models import SubCategory
 from product_listing.models import Product, Inventory
 from product_listing.serializers import ProductSerializer, InventorySerializer
@@ -24,12 +24,12 @@ class SubCategoryProductsView(RetrieveAPIView):
     serializer_class = SubCategoryProductListSerializer
 
 
-class OutletSubcategoryInventoryView(ListAPIView):
+class OutletSubcategoryProductsView(ListAPIView):
     permission_classes = [
         AllowAny,
     ]
-    model = Inventory
-    serializer_class = InventorySerializer
+    model = Product
+    serializer_class = ProductInventorySerializer
 
     def get_queryset(self):
         """
@@ -38,10 +38,9 @@ class OutletSubcategoryInventoryView(ListAPIView):
         """
         outlet_id = self.kwargs['outlet_id']
         subcategory_id = self.kwargs['subcategory_id']
-        return Inventory.objects.filter(
-            outlet__id=outlet_id,
-            isOffered=True,
-            product__product_subcategory_product__sub_category=subcategory_id)
+        return Product.objects.filter(
+            product_inventory_product__outlet__id=outlet_id,
+            product_subcategory_product__sub_category=subcategory_id)
 
 
 class StoreCollectionInventoryView(ListAPIView):

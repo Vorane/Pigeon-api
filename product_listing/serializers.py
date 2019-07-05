@@ -12,12 +12,24 @@ class ProductSerializer(ModelSerializer):
         fields = "__all__"
 
 
+class ProductInlineSerializer(ModelSerializer):
+    class Meta:
+        model = Product
+        fields = ("id", "name")
+
+
+class InventoryInlineSerializer(ModelSerializer):
+    class Meta:
+        model = Inventory
+        fields = ("id", "quantity", "price", "product", "outlet")
+
+
 class InventorySerializer(ModelSerializer):
     product = ProductSerializer()
 
     class Meta:
         model = Inventory
-        fields = ("id", "quantity", "price", "product")
+        fields = ("id", "quantity", "price", "product", "outlet")
 
 
 class SubCategoryProductSerializer(ModelSerializer):
@@ -38,8 +50,19 @@ class SubCategoryProductListSerializer(ModelSerializer):
         fields = ("id", "name", "products")
 
 
+class ProductInventorySerializer(ModelSerializer):
+    outlet_inventory = InventoryInlineSerializer(
+        source="product_inventory_product", many=True)
+
+    class Meta:
+        model = Product
+        fields = ("id", "name", "display_name", "thumbnail", "description",
+                  "price", "brand", "size", "variant", "size", "color",
+                  "outlet_inventory")
+
+
 class CollectionProductSerializer(ModelSerializer):
-    product = ProductSerializer()
+    product = ProductInventorySerializer()
 
     class Meta:
         model = CollectionProduct
