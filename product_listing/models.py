@@ -78,3 +78,6 @@ class Inventory(BaseModel):
         return (str(self.outlet.display_name) + " - " + str(
             self.product.display_name) + " - " + str(self.quantity) + " - " +
                 str(self.price))
+
+    class Meta:
+        unique_together = [['product', 'outlet']]

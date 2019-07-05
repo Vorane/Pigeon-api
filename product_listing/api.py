@@ -31,6 +31,9 @@ class OutletSubcategoryProductsView(ListAPIView):
     model = Product
     serializer_class = ProductInventorySerializer
 
+    def get_serializer_context(self):
+        return {"outlet_id": self.kwargs['outlet_id']}
+
     def get_queryset(self):
         """
         This view should return a list of all the inventory for

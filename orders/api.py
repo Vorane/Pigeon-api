@@ -45,6 +45,10 @@ class OutletOrdersView(ListAPIView):
     filter_backends = (DjangoFilterBackend, )
     filterset_class = OrderFilter
 
+    def get_serializer_context(self):
+        return {"outlet_id": self.request.user.attendant.outlet.id}
+
+
     def get_queryset(self):
         """
         Get list of orders for the outlet that the user is assigned to

@@ -1,4 +1,4 @@
-from rest_framework.serializers import ModelSerializer
+from rest_framework.serializers import ModelSerializer, SerializerMethodField
 
 from categories.models import SubCategory
 from categories.serializers import SubCategorySerializer
@@ -51,8 +51,17 @@ class SubCategoryProductListSerializer(ModelSerializer):
 
 
 class ProductInventorySerializer(ModelSerializer):
-    outlet_inventory = InventoryInlineSerializer(
-        source="product_inventory_product", many=True)
+    # outlet_inventory = InventoryInlineSerializer(
+    # source="product_inventory_product", many=True)
+
+    outlet_inventory = SerializerMethodField('get_outlet_only_inventory')
+
+    def get_outlet_only_inventory(self, product):
+        found_inventory = Inventory.objects.get(
+            outlet__id=self.context["outlet_id"], product__id=product.id)
+        serializer = InventoryInlineSerializer(
+            instance=found_inventory, many=False)
+        return serializer.data
 
     class Meta:
         model = Product
