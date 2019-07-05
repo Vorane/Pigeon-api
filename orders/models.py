@@ -54,6 +54,9 @@ class Order(BaseModel):
                         "price", flat=True).get(id=item_object["product_id"])
         return total_amount
 
+    class Meta:
+        ordering = ['-created_at', '-pickup_time']
+
 
 class OrderItem(BaseModel):
     order = models.ForeignKey(
