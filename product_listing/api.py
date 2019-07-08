@@ -79,20 +79,24 @@ class InventoryListView(ListAPIView):
     permission_classes = [
         AllowAny,
     ]
-    queryset = Inventory.objects.all()
-    serializer_class = InventorySerializer
+    queryset = Product.objects.all()
+    serializer_class = ProductInventorySerializer
+
+    def get_serializer_context(self):
+        return {"outlet_id": self.kwargs['outlet_id']}
 
     def get_queryset(self):
         """
-        This view should return a list of all the inventory for
+        This view should return a list of all the products for
         an outlet as determined by the outlet_id portion of the URL.
         """
         outlet_id = self.kwargs['outlet_id']
-        return Inventory.objects.filter(
-            outlet__id=outlet_id).order_by('product__display_name')
+        return Product.objects.filter(
+            product_inventory_product__outlet__id=outlet_id).order_by(
+                'display_name')
 
     filter_backends = (filters.SearchFilter, )
-    search_fields = ('product__display_name', )
+    search_fields = ('display_name', )
 
 
 class UpdateProductPrice(APIView):

@@ -20,7 +20,7 @@ store_collection_inventory_urls = [
         name='store-collection-inventory-view'),
 ]
 
-api_product_urls = [
+outlet_product_urls = [
     # used to search for products in an outlet
     url(r'^$', InventoryListView.as_view(), name='outlet-products-view'),
     url(r'^update-product-price/$',
