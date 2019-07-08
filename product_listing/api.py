@@ -53,12 +53,16 @@ class StoreCollectionInventoryView(ListAPIView):
     model = Inventory
     serializer_class = InventorySerializer
 
+    def get_serializer_context(self):
+        return {"outlet_id": self.kwargs['outlet_id']}
+
     def get_queryset(self):
         """
         This view should return a list of all the inventory for
         an outlet that belong to the subcategory submitted.
         """
         store_id = self.kwargs['store_id']
+        outlet_id = self.kwargs['store_id']
         return Inventory.objects.filter(
             isOffered=True,
             product__product_colection_product__collection__store=store_id,
