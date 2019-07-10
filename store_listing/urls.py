@@ -8,7 +8,7 @@ from product_listing.api import ProductListView, InventoryListView
 from categories.urls import store_categories_urls
 from orders.urls import api_outlet_orders_urls
 from product_collections.urls import store_collection_urls, outlet_collection_urls
-from product_listing.urls import outlet_product_urls
+from product_listing.urls import outlet_product_urls, outlet_inventory_urls
 from categories.urls import outlet_subcategories_urls
 
 app_name = "storelisting"
@@ -32,4 +32,6 @@ store_listing_urls = [
     url(r'^outlet/(?P<outlet_id>\d+)/subcategories/',
         include(outlet_subcategories_urls)),
     url(r'^outlet/(?P<outlet_id>\d+)/products/', include(outlet_product_urls)),
+    url(r'^outlet/(?P<outlet_id>\d+)/inventory/',
+        include(outlet_inventory_urls)),
 ]

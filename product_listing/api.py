@@ -1,15 +1,17 @@
 from django.http import JsonResponse
 
 from rest_framework.views import APIView
-from rest_framework.generics import RetrieveAPIView, ListAPIView
+from rest_framework.generics import RetrieveAPIView, ListAPIView, UpdateAPIView
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework import filters
 
-from .serializers import SubCategoryProductListSerializer, ProductInventorySerializer
 from categories.models import SubCategory
+from commons.utils import validate_object
+
 from product_listing.models import Product, Inventory
 from product_listing.serializers import ProductSerializer, InventorySerializer
-from commons.utils import validate_object
+from .serializers import SubCategoryProductListSerializer, ProductInventorySerializer
+from .permissions import IsAllowedInventoryUpdate
 
 
 #TODO phase out subCategoryProductsView for OutletSubcategoryView
@@ -151,3 +153,11 @@ class UpdateProductPrice(APIView):
                 'message': "no data provided in request body"
             },
                                 status=400)
+
+
+class UpdateInventoryView(UpdateAPIView):
+    permission_classes = [IsAuthenticated, IsAllowedInventoryUpdate]
+    serializer_class = InventorySerializer
+    model = Inventory
+    queryset = Inventory.objects.all()
+    lookup_url_kwarg = "inventory_id"
