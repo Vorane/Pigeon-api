@@ -21,7 +21,7 @@ class ProductInlineSerializer(ModelSerializer):
 class InventoryInlineSerializer(ModelSerializer):
     class Meta:
         model = Inventory
-        fields = ("id", "quantity", "price", "product", "outlet")
+        fields = ("id", "quantity", "price", "product", "outlet", "isOffered")
 
 
 class InventorySerializer(ModelSerializer):
