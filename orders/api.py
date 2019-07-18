@@ -48,7 +48,6 @@ class OutletOrdersView(ListAPIView):
     def get_serializer_context(self):
         return {"outlet_id": self.request.user.attendant.outlet.id}
 
-
     def get_queryset(self):
         """
         Get list of orders for the outlet that the user is assigned to
@@ -174,7 +173,9 @@ class CreateOrderView(APIView):
                 #                                total_amount, new_order.id)
                 # success
                 # completed
-                my_list = OrderOrderItemSerializer(new_order)
+                my_list = OrderOrderItemSerializer(
+                    new_order,
+                    context={'outlet_id': request.data["outlet_id"]})
                 # my_json_list = json.dumps(my_list)
                 return JsonResponse(
                     {
