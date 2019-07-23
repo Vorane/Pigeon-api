@@ -63,6 +63,10 @@ class OrderDetailsView(RetrieveAPIView):
     model = Order
     queryset = Order.objects.all()
     serializer_class = OrderOrderItemSerializer
+
+    def get_serializer_context(self):
+        return {"outlet_id": Order.objects.get(id=self.kwargs['id']).outlet.id}
+
     lookup_field = "id"
 
 
