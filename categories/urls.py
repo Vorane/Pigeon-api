@@ -1,6 +1,6 @@
 from django.conf import settings
 from django.conf.urls import url, include
-from .api import StoreCategoriesView, CategorySubCategoriesView
+from .api import StoreCategoriesView, CategorySubCategoriesView, SearchSubCategoryView
 
 from product_listing.urls import subcategory_product_urls, subcategory_inventory_urls
 
@@ -19,4 +19,5 @@ store_categories_urls = [
 outlet_subcategories_urls = [
     url(r'^(?P<subcategory_id>\d+)/inventory/$',
         include(subcategory_inventory_urls)),
+    url(r'^$', SearchSubCategoryView.as_view(), name='search-subcategory'),
 ]
