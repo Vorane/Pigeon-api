@@ -1,8 +1,9 @@
-from rest_framework.generics import RetrieveAPIView
+from rest_framework.generics import RetrieveAPIView, ListAPIView
 from rest_framework.permissions import AllowAny
 from store_listing.models import Store
-from .models import Category
-from .serializers import StoreCategorySerializer, CategorySubCategoryListingSerializer
+from .models import Category, SubCategory
+from .serializers import StoreCategorySerializer, CategorySubCategoryListingSerializer, SubCategorySerializer
+from rest_framework import filters
 
 
 class CategorySubCategoriesView(RetrieveAPIView):
@@ -20,3 +21,11 @@ class StoreCategoriesView(RetrieveAPIView):
     lookup_field="id"
     queryset=Store.objects.all()
     serializer_class = StoreCategorySerializer
+
+
+class SearchSubCategoryView(ListAPIView):
+    permission_classes = [AllowAny, ]
+    search_fields = ['name', 'display_name']
+    filter_backends = (filters.SearchFilter,)
+    queryset = SubCategory.objects.all()
+    serializer_class = SubCategorySerializer
