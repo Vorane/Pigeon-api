@@ -1,6 +1,7 @@
 from django.conf.urls import url, include
 
 from orders.api import OutletOrdersView, OrderDetailsView, CreateOrderView, UpdateOrdersView, UpdateOrderStatusView
+from orders.staff_api import OrdersView
 
 app_name = "orders"
 
@@ -25,4 +26,8 @@ api_orders_urls = [
     url(r'^update-order-status/',
         UpdateOrderStatusView.as_view(),
         name='retry_transaction'),
+]
+
+api_orders_staff_urls = [
+    url(r'^$', OrdersView.as_view(), name='order-list-view'),
 ]
