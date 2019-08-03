@@ -30,4 +30,5 @@ api_orders_urls = [
 
 api_orders_staff_urls = [
     url(r'^$', OrdersView.as_view(), name='order-list-view'),
+    url(r'^update_order/(?P<id>\d+)/$',UpdateOrdersView.as_view(), name='staff-orders-update'),
 ]
