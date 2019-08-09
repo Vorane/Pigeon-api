@@ -72,6 +72,7 @@ class Inventory(BaseModel):
         related_name="product_outlet_product")
     quantity = models.IntegerField(blank=False, null=False, default=0)
     isOffered = models.BooleanField(default=True, blank=False)
+    isAvailable= models.BooleanField(default=True, blank=True)
     price = models.IntegerField(blank=False, null=False, default=1)
 
     def __str__(self):
