@@ -303,7 +303,41 @@ class RemoveOrderItemView(APIView):
                 order_item.save()
                 return JsonResponse({
                     'status': 'success',
-                    'message': "Item has successfully been updated to the order",
+                    'message': "Item has successfully been removed",
+                },
+                    status=201)
+            else:
+                return JsonResponse({
+                    'status': 'bad request',
+                    'message': "Item with id {} could not be found".format(order_id),
+                },
+                    status=404)
+        except OrderItem.DoesNotExist:
+            return JsonResponse({
+                'status': 'bad request',
+                'message': "Item with id {} could not be found".format(order_id),
+            },
+                status=404)
+
+
+class SwapOutOrderItemView(APIView):
+    permission_classes = [
+        AllowAny,
+    ]
+    serializer_class = OrderItemInlineSerializer
+    queryset = OrderItem.objects.all()
+
+    def post(self, request, order_item_id):
+        order_id = self.kwargs['order_item_id']
+        try:
+            order_item = OrderItem.objects.get(id=order_id)
+            if order_item:
+                order_item.isRemoved = True
+                order_item.isSwapped = True
+                order_item.save()
+                return JsonResponse({
+                    'status': 'success',
+                    'message': "Item has successfully been swapped out",
                 },
                     status=201)
             else:
