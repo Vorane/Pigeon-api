@@ -64,3 +64,6 @@ class OrderItem(BaseModel):
     product = models.ForeignKey(
         Product, on_delete=models.CASCADE, related_name='product_order_item')
     quantity = models.IntegerField(default=0)
+    isRemoved = models.BooleanField(default=False)
+    isSwapped = models.BooleanField(default=False)
+    isAdded = models.BooleanField(default=False)

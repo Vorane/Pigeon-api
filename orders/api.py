@@ -1,4 +1,4 @@
-from rest_framework.generics import RetrieveAPIView, ListAPIView, RetrieveUpdateDestroyAPIView
+from rest_framework.generics import RetrieveAPIView, ListAPIView, RetrieveUpdateDestroyAPIView, CreateAPIView
 from rest_framework.views import APIView
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from django.http import JsonResponse
@@ -12,7 +12,7 @@ from store_listing.models import Outlet
 from product_listing.models import Product
 from orders.models import Order, OrderItem
 from api.models import Wallet
-from orders.serializers import OutletOrdersSerializers, OrderOrderItemSerializer, OrderInlineSerializer, OrderDetailSerializer
+from orders.serializers import OutletOrdersSerializers, OrderOrderItemSerializer, OrderInlineSerializer, OrderDetailSerializer, OrderItemInlineSerializer
 from .filters import OrderFilter
 from commons.app_constants import *
 from orders.orderutils import update_order_status
@@ -259,6 +259,99 @@ class UpdateOrdersView(APIView):
                 'message': "request body is missing"
             },
                                 status=400)
+
+
+class AddItemToOrderView(APIView):
+    permission_classes = [
+        AllowAny,
+    ]
+    serializer_class = OrderItemInlineSerializer
+    queryset = OrderItem.objects.all()
+
+    def post(self, request):
+        order_id = request.data['order_id']
+        product_id = request.data['product_id']
+        quantity = request.data['quantity']
+        order_item = OrderItem.objects.create(order_id = order_id, product_id = product_id, quantity=quantity, isAdded = True)
+        order_item.save()
+        if order_item.id :
+            return JsonResponse({
+                'status': 'success',
+                'message': "Item has successfully been updated to the order",
+            },
+                status=201)
+        else:
+            return JsonResponse({
+                'status': 'bad request',
+                'message': "Item could not be added to the order",
+            },
+                status=404)
+
+class RemoveOrderItemView(APIView):
+    permission_classes = [
+        AllowAny,
+    ]
+    serializer_class = OrderItemInlineSerializer
+    queryset = OrderItem.objects.all()
+
+    def post(self, request, order_item_id):
+        order_id = self.kwargs['order_item_id']
+        try:
+            order_item = OrderItem.objects.get(id=order_id)
+            if order_item:
+                order_item.isRemoved = True
+                order_item.save()
+                return JsonResponse({
+                    'status': 'success',
+                    'message': "Item has successfully been removed",
+                },
+                    status=201)
+            else:
+                return JsonResponse({
+                    'status': 'bad request',
+                    'message': "Item with id {} could not be found".format(order_id),
+                },
+                    status=404)
+        except OrderItem.DoesNotExist:
+            return JsonResponse({
+                'status': 'bad request',
+                'message': "Item with id {} could not be found".format(order_id),
+            },
+                status=404)
+
+
+class SwapOutOrderItemView(APIView):
+    permission_classes = [
+        AllowAny,
+    ]
+    serializer_class = OrderItemInlineSerializer
+    queryset = OrderItem.objects.all()
+
+    def post(self, request, order_item_id):
+        order_id = self.kwargs['order_item_id']
+        try:
+            order_item = OrderItem.objects.get(id=order_id)
+            if order_item:
+                order_item.isRemoved = True
+                order_item.isSwapped = True
+                order_item.save()
+                return JsonResponse({
+                    'status': 'success',
+                    'message': "Item has successfully been swapped out",
+                },
+                    status=201)
+            else:
+                return JsonResponse({
+                    'status': 'bad request',
+                    'message': "Item with id {} could not be found".format(order_id),
+                },
+                    status=404)
+        except OrderItem.DoesNotExist:
+            return JsonResponse({
+                'status': 'bad request',
+                'message': "Item with id {} could not be found".format(order_id),
+            },
+                status=404)
 
 
 class UpdateOrderStatusView(APIView):
