@@ -282,6 +282,8 @@ class UpdateOrderStatusView(APIView):
             update_order_status(order_id=order_id, status=status)
         elif status == READY_FOR_PICKUP:
             update_order_status(order_id=order_id, status=status)
+        elif status == READY_FOR_DELIVERY:
+            update_order_status(order_id=order_id, status=status)
         elif status == PICKED:
             update_order_status(order_id=order_id, status=status)
         elif status == PICKED:
