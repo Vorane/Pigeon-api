@@ -36,12 +36,13 @@ class OrderItemSerializer(ModelSerializer):
 class OrderOrderItemSerializer(ModelSerializer):
     order_order_item = OrderItemInlineSerializer(many=True, read_only=True)
     outlet = OutletInlineSerializer(read_only=True)
+    wallet = WalletInlineSerializer(read_only=True)
 
     class Meta:
         model = Order
         fields = ("id", "order_status", "comment", "pickup_time",
                   "order_order_item", "outlet", "delivery_coordinates",
-                  "delivery_address", "order_contact_person")
+                  "delivery_address", "order_contact_person","wallet")
 
 
 class OrderDetailSerializer(ModelSerializer):
