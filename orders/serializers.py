@@ -20,7 +20,7 @@ class OrderItemInlineSerializer(ModelSerializer):
 
     class Meta:
         model = OrderItem
-        fields = ("id", "order", "product", "quantity", "isAdded")
+        fields = ("id", "order", "product", "quantity", "isAdded", "isRemoved", "isSwapped")
 
 
 #TODO swap out with orderItemInlineSerializer
