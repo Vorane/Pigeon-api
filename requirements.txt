@@ -10,7 +10,7 @@ certifi==2018.11.29
 cffi==1.12.1
 chardet==3.0.4
 Click==7.0
-cryptography==2.5
+cryptography==2.6.1
 decorator==4.4.0
 Django==2.1.5
 django-colorfield==0.1.15
@@ -52,3 +52,5 @@ urllib3==1.24.1
 africastalking
 wcwidth==0.1.7
 wrapt==1.11.1
+django-push-notifications==1.6.1
+
