@@ -363,23 +363,35 @@ class UpdateOrderStatusView(APIView):
         order_id = request.data['order_id']
         status = request.data['order_status']
 
+        if status == CREATED:
+            update_order_status(order_id=order_id, status=status)
+        if status == AWAITING_FUNDS:
+            update_order_status(order_id=order_id, status=status)
+        if status == INSUFFICIENT_FUNDS_FAILURE:
+            update_order_status(order_id=order_id, status=status)
+        if status == READY_FOR_PROCESSING:
+            update_order_status(order_id=order_id, status=status)
         if status == RECEIVED_BY_STORE:
             update_order_status(order_id=order_id, status=status)
         elif status == IN_PROCESSING:
             update_order_status(order_id=order_id, status=status)
         elif status == AWAITING_SUBSTITUTION:
             update_order_status(order_id=order_id, status=status)
-        elif status == CANCELLED_BY_USER:
-            update_order_status(order_id=order_id, status=status)
         elif status == IN_CHECKOUT:
+            update_order_status(order_id=order_id, status=status)
+        elif status == CANCELLED_BY_USER:
             update_order_status(order_id=order_id, status=status)
         elif status == READY_FOR_PICKUP:
             update_order_status(order_id=order_id, status=status)
+        elif status == PICKED:
+            update_order_status(order_id=order_id, status=status)
+        elif status == NOT_PICKED:
+            update_order_status(order_id=order_id, status=status)
         elif status == READY_FOR_DELIVERY:
             update_order_status(order_id=order_id, status=status)
-        elif status == PICKED:
+        elif status == DELIVERY_IN_PROGRESS:
             update_order_status(order_id=order_id, status=status)
-        elif status == PICKED:
+        elif status == DELIVERED:
             update_order_status(order_id=order_id, status=status)
         else:
             return JsonResponse(
