@@ -2,6 +2,7 @@ from django.conf.urls import url, include
 from store_listing.urls import store_listing_urls
 from orders.urls import api_orders_urls as orders_urls
 from orders.urls import api_orders_staff_urls as staff_orders_urls
+from authentication.urls import auth_urls
 from .views import ValidateView, ConfirmView, SubmitView, CheckTransaction, RetryTransaction
 
 from store.urls import store_urls
@@ -11,7 +12,7 @@ app_name = "api"
 urlpatterns = [
     url(r'^storelisting/', include(store_listing_urls)),
     url(r'^store/', include(store_urls)),
-    
+    url(r'^auth/', include(auth_urls)),
     url(r'^orders/', include(orders_urls)),
     url(r'^orders/staff/', include(staff_orders_urls)),
 
