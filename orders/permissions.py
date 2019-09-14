@@ -26,4 +26,4 @@ class IsInOutlet(IsAuthenticated):
             attendant = Attendant.objects.get(user=request.user)
             return  order_item.order.outlet == attendant.outlet
         except:
-            return True
+            return False

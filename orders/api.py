@@ -17,7 +17,7 @@ from .filters import OrderFilter
 from commons.app_constants import *
 from orders.orderutils import update_order_status
 from .permissions import IsInOutlet, IsAttendant
-
+from commons.permissions import IsPigeonAttendant
 
 def validate_object(my_object, fields):
     for field in fields:
@@ -40,7 +40,7 @@ def calculate_basket_total(items):
 
 class OutletOrdersView(ListAPIView):
     permission_classes = [
-        IsAuthenticated,
+        IsInOutlet|IsPigeonAttendant,
     ]
     serializer_class = OrderDetailSerializer
     filter_backends = (DjangoFilterBackend, )
@@ -59,7 +59,7 @@ class OutletOrdersView(ListAPIView):
 
 class OrderDetailsView(RetrieveAPIView):
     permission_classes = [
-        AllowAny,
+        IsInOutlet,
     ]
     model = Order
     queryset = Order.objects.all()
@@ -264,7 +264,7 @@ class UpdateOrdersView(APIView):
 
 class AddItemToOrderView(APIView):
     permission_classes = [
-        IsInOutlet,
+        IsInOutlet|IsPigeonAttendant,
     ]
     serializer_class = OrderItemInlineSerializer
     queryset = OrderItem.objects.all()
@@ -290,7 +290,7 @@ class AddItemToOrderView(APIView):
 
 class RemoveOrderItemView(APIView):
     permission_classes = [
-        IsInOutlet,
+        IsInOutlet|IsPigeonAttendant,
     ]
     serializer_class = OrderItemInlineSerializer
     queryset = OrderItem.objects.all()
@@ -323,7 +323,7 @@ class RemoveOrderItemView(APIView):
 
 class SwapOutOrderItemView(APIView):
     permission_classes = [
-        IsInOutlet,
+        IsInOutlet|IsPigeonAttendant,
     ]
     serializer_class = OrderItemInlineSerializer
     queryset = OrderItem.objects.all()
@@ -357,7 +357,7 @@ class SwapOutOrderItemView(APIView):
 
 class UpdateOrderStatusView(APIView):
     permission_classes = [
-        IsInOutlet,
+        IsInOutlet|IsPigeonAttendant,
     ]
 
     def post(self, request):
