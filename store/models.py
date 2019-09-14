@@ -20,7 +20,7 @@ class Attendant(models.Model):
     last_name = models.CharField(max_length=50,blank=True)
     other_names = models.CharField(max_length=255,blank=True)
     national_id = models.CharField(max_length=50, unique=True)
-    phone_number = models.CharField(max_length=50,blank=True)
+    phone_number = models.CharField(max_length=50,blank=True) #TODO : Remove phone number. Is in user model
     gender = models.CharField(choices=GENDER_CHOICES,blank=True, max_length=30)
 
     def __str__(self):
