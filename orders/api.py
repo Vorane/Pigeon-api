@@ -16,6 +16,7 @@ from orders.serializers import OutletOrdersSerializers, OrderOrderItemSerializer
 from .filters import OrderFilter
 from commons.app_constants import *
 from orders.orderutils import update_order_status
+from .permissions import IsInOutlet, IsAttendant
 
 
 def validate_object(my_object, fields):
@@ -263,7 +264,7 @@ class UpdateOrdersView(APIView):
 
 class AddItemToOrderView(APIView):
     permission_classes = [
-        AllowAny,
+        IsInOutlet,
     ]
     serializer_class = OrderItemInlineSerializer
     queryset = OrderItem.objects.all()
@@ -289,7 +290,7 @@ class AddItemToOrderView(APIView):
 
 class RemoveOrderItemView(APIView):
     permission_classes = [
-        AllowAny,
+        IsInOutlet,
     ]
     serializer_class = OrderItemInlineSerializer
     queryset = OrderItem.objects.all()
@@ -322,7 +323,7 @@ class RemoveOrderItemView(APIView):
 
 class SwapOutOrderItemView(APIView):
     permission_classes = [
-        AllowAny,
+        IsInOutlet,
     ]
     serializer_class = OrderItemInlineSerializer
     queryset = OrderItem.objects.all()
@@ -356,7 +357,7 @@ class SwapOutOrderItemView(APIView):
 
 class UpdateOrderStatusView(APIView):
     permission_classes = [
-        AllowAny,
+        IsInOutlet,
     ]
 
     def post(self, request):
