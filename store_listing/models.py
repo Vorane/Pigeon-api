@@ -9,6 +9,14 @@ from commons.models import BaseModel
 
 # Create your models here.
 
+class StoreType(BaseModel):
+    name = models.CharField(max_length=50, unique=True)
+    display_name = models.CharField(max_length=50)
+    color = ColorField(default='#FFFFFF')
+
+    def __str__(self):
+        return self.name
+
 class Store(BaseModel):
     name = models.CharField(max_length=50, unique=True)
     display_name = models.CharField(max_length=50)
@@ -17,6 +25,7 @@ class Store(BaseModel):
     telephone = models.CharField(null=True, blank=True, max_length=50)
     email = models.EmailField(null=True, blank=True, max_length=50)
     color = ColorField(default='#FFFFFF')
+    store_type = models.ForeignKey(StoreType, on_delete=models.DO_NOTHING, related_name="store_store_type", null=True)
 
     def __str__(self):
         return self.name
