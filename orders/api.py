@@ -17,6 +17,7 @@ from .filters import OrderFilter
 from commons.app_constants import *
 from orders.orderutils import update_order_status
 from .permissions import IsInOutlet, IsAttendant
+from store.permissions import IsOutletAttendant
 from commons.permissions import IsPigeonAttendant
 
 def validate_object(my_object, fields):
@@ -59,7 +60,7 @@ class OutletOrdersView(ListAPIView):
 
 class OrderDetailsView(RetrieveAPIView):
     permission_classes = [
-        IsInOutlet,
+        IsOutletAttendant,
     ]
     model = Order
     queryset = Order.objects.all()

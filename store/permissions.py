@@ -12,7 +12,7 @@ class IsAttendant(IsAuthenticated):
             return False
 
 
-class IsInOutlet (IsAttendant):
+class IsOutletAttendant (IsAttendant):
     def has_permission(self, request, view):
         is_attendant = IsAttendant.has_permission(self, request, view)
         if not is_attendant: return is_attendant
