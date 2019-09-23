@@ -1,5 +1,6 @@
 from rest_framework.permissions import IsAuthenticated
 from authentication.models import User
+from store.models import Attendant
 
 
 class IsAttendant(IsAuthenticated):
@@ -16,6 +17,7 @@ class IsOutletAttendant (IsAttendant):
     def has_permission(self, request, view):
         is_attendant = IsAttendant.has_permission(self, request, view)
         if not is_attendant: return is_attendant
+        print("is attendant");
         try:
             return request.user.attendant.outlet > 0
         except:

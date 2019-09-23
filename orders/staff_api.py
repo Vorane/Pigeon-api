@@ -10,7 +10,7 @@ from commons.permissions import IsPigeonAttendant
 
 
 class OrdersView(ListAPIView):
-    permission_classes = [IsInOutlet|IsPigeonAttendant,]
+    permission_classes = [IsPigeonAttendant,]
     serializer_class = StaffOrderSerializer
     queryset = Order.objects.all()
     filter_backends = (DjangoFilterBackend, )

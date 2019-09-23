@@ -60,7 +60,7 @@ class OutletOrdersView(ListAPIView):
 
 class OrderDetailsView(RetrieveAPIView):
     permission_classes = [
-        IsOutletAttendant,
+        IsAttendant,
     ]
     model = Order
     queryset = Order.objects.all()
@@ -265,7 +265,7 @@ class UpdateOrdersView(APIView):
 
 class AddItemToOrderView(APIView):
     permission_classes = [
-        IsInOutlet|IsPigeonAttendant,
+        IsAttendant|IsPigeonAttendant,
     ]
     serializer_class = OrderItemInlineSerializer
     queryset = OrderItem.objects.all()
@@ -291,7 +291,7 @@ class AddItemToOrderView(APIView):
 
 class RemoveOrderItemView(APIView):
     permission_classes = [
-        IsInOutlet|IsPigeonAttendant,
+        IsAttendant|IsPigeonAttendant,
     ]
     serializer_class = OrderItemInlineSerializer
     queryset = OrderItem.objects.all()
@@ -324,7 +324,7 @@ class RemoveOrderItemView(APIView):
 
 class SwapOutOrderItemView(APIView):
     permission_classes = [
-        IsInOutlet|IsPigeonAttendant,
+        IsAttendant|IsPigeonAttendant,
     ]
     serializer_class = OrderItemInlineSerializer
     queryset = OrderItem.objects.all()
@@ -358,7 +358,7 @@ class SwapOutOrderItemView(APIView):
 
 class UpdateOrderStatusView(APIView):
     permission_classes = [
-        IsInOutlet|IsPigeonAttendant,
+        IsAttendant|IsPigeonAttendant,
     ]
 
     def post(self, request):

@@ -21,9 +21,13 @@ class IsInOutlet(IsAuthenticated):
         is_attendant = IsAttendant.has_permission(self, request, view)
         if not is_attendant: return is_attendant
         order_id = request.resolver_match.kwargs.get('order_item_id')
+        if not order_id:
+            order_id = request.resolver_match.kwargs.get('id')
         try:
-            order_item = OrderItem.objects.get(id=order_id)
-            attendant = Attendant.objects.filter(user=request.user)
+            attendant = Attendant.objects.get(user=request.user)
+            order_item = OrderItem.objects.filter(order_id=order_id).first()
+
             return order_item.order.outlet == attendant.outlet
-        except:
+        except Exception as exception:
+            print(exception)
             return False
