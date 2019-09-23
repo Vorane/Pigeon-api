@@ -23,7 +23,7 @@ class IsInOutlet(IsAuthenticated):
         order_id = request.resolver_match.kwargs.get('order_item_id')
         try:
             order_item = OrderItem.objects.get(id=order_id)
-            attendant = Attendant.objects.get(user=request.user)
-            return  order_item.order.outlet == attendant.outlet
+            attendant = Attendant.objects.filter(user=request.user)
+            return order_item.order.outlet == attendant.outlet
         except:
             return False

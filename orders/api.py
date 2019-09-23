@@ -40,7 +40,7 @@ def calculate_basket_total(items):
 
 class OutletOrdersView(ListAPIView):
     permission_classes = [
-        IsInOutlet|IsPigeonAttendant,
+        IsAttendant|IsPigeonAttendant,
     ]
     serializer_class = OrderDetailSerializer
     filter_backends = (DjangoFilterBackend, )
