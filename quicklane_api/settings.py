@@ -72,6 +72,7 @@ INSTALLED_APPS = [
     'product_collections.apps.ProductCollectionsConfig',
     'django_filters',
     'push_notifications',
+    'taggit'
 ]
 
 MIDDLEWARE = [
