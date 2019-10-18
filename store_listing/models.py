@@ -54,7 +54,10 @@ class Outlet(BaseModel):
     website = models.CharField(max_length=30, null=True)
     store = models.ForeignKey(
         Store, on_delete=models.DO_NOTHING, related_name="store_outlet"
-    )    
+    )
+    is_shop = models.BooleanField(default=True)
+    is_eat = models.BooleanField(default=False)
+    is_service = models.BooleanField(default=False)
 
     def __str__(self):
         return self.name

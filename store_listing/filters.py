@@ -16,5 +16,13 @@ class OutletFilter(filters.FilterSet):
 
     class Meta:
         model = Outlet
-        fields = ["name", "display_name", "location", "store"]
+        fields = [
+            "name",
+            "display_name",
+            "location",
+            "store",
+            "is_shop",
+            "is_eat",
+            "is_service",
+        ]
 
