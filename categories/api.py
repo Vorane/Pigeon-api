@@ -1,10 +1,11 @@
-from rest_framework.generics import RetrieveAPIView, ListAPIView, ListCreateAPIView
+from rest_framework.generics import RetrieveAPIView, ListAPIView, ListCreateAPIView, CreateAPIView
 from rest_framework.permissions import AllowAny
 from store_listing.models import Store
 from .models import Category, SubCategory
 from .serializers import StoreCategorySerializer, CategorySubCategoryListingSerializer, SubCategorySerializer, CategorySerializer
 from rest_framework import filters
 from django.http import JsonResponse
+from store_listing.models import Outlet
 
 
 class CategorySubCategoriesView(RetrieveAPIView):
@@ -47,3 +48,9 @@ class CreateCategoryAPIView(ListCreateAPIView):
         if subcategory_serializer.is_valid():
             subcategory_serializer.save()
         return self.create(request, *args, **kwargs)
+
+
+class CreateSubCategoryView(CreateAPIView):
+    permission_classes = [AllowAny, ]
+    queryset = SubCategory.objects.all()
+    serializer_class = SubCategorySerializer
