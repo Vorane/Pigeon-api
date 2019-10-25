@@ -2,6 +2,7 @@ from rest_framework.serializers import ModelSerializer
 
 from store_listing.models import Store
 from .models import Category, SubCategory, CategorySubCategory
+from store_listing.serializers import StoreSerializer
 
 
 class SubCategorySerializer(ModelSerializer):
