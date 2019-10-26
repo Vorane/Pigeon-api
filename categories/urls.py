@@ -1,6 +1,6 @@
 from django.conf import settings
 from django.conf.urls import url, include
-from .api import StoreCategoriesView, CategorySubCategoriesView, SearchSubCategoryView, CreateCategoryAPIView, CreateSubCategoryView
+from .api import StoreCategoriesView, CategorySubCategoriesView, SearchSubCategoryView, CreateCategoryAPIView, CreateSubCategoryView, CreateSubCategoryMappingView
 
 from product_listing.urls import subcategory_product_urls, subcategory_inventory_urls
 
@@ -22,4 +22,5 @@ outlet_subcategories_urls = [
         include(subcategory_inventory_urls)),
     url(r'^$', SearchSubCategoryView.as_view(), name='search-subcategory'),
     url(r'^create/', CreateSubCategoryView.as_view(), name='create-subcategories'),
+    url(r'^map/', CreateSubCategoryMappingView.as_view(), name='map-subcategories'),
 ]

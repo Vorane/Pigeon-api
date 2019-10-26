@@ -51,3 +51,9 @@ class StoreCategorySerializer(ModelSerializer):
     class Meta:
         model = Store
         fields = ("id", "name", "categories")
+
+
+class CategorySubCategoryInlineSerializer(ModelSerializer):
+    class Meta:
+        model = CategorySubCategory
+        fields = "__all__"
