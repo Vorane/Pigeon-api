@@ -1,7 +1,7 @@
 from django.conf import settings
 from django.conf.urls import url
 from .api import SubCategoryProductsView
-from .api import ProductListView, InventoryListView, UpdateProductPrice, OutletSubcategoryProductsView, StoreCollectionInventoryView, UpdateInventoryView
+from .api import ProductListView, InventoryListView, UpdateProductPrice, OutletSubcategoryProductsView, StoreCollectionInventoryView, UpdateInventoryView, CreateProductInventoryView
 
 app_name = "product_listing"
 
@@ -26,6 +26,7 @@ outlet_product_urls = [
     url(r'^update-product-price/$',
         UpdateProductPrice.as_view(),
         name='update-product-price-view'),
+    url(r'^create/', CreateProductInventoryView.as_view(), name='create-products-inventory'),
 ]
 
 outlet_inventory_urls = [
