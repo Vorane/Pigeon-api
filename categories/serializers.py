@@ -2,6 +2,7 @@ from rest_framework.serializers import ModelSerializer
 
 from store_listing.models import Store
 from .models import Category, SubCategory, CategorySubCategory
+from store_listing.serializers import StoreSerializer
 
 
 class SubCategorySerializer(ModelSerializer):
@@ -50,3 +51,9 @@ class StoreCategorySerializer(ModelSerializer):
     class Meta:
         model = Store
         fields = ("id", "name", "categories")
+
+
+class CategorySubCategoryInlineSerializer(ModelSerializer):
+    class Meta:
+        model = CategorySubCategory
+        fields = "__all__"

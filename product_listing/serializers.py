@@ -70,6 +70,13 @@ class ProductInventorySerializer(ModelSerializer):
                   "outlet_inventory")
 
 
+class CreateProductInventorySerializer(ModelSerializer):
+    product = ProductSerializer
+    class Meta:
+        model = Inventory
+        fields = "__all__"
+
+
 class CollectionProductSerializer(ModelSerializer):
     product = ProductInventorySerializer()
 
