@@ -7,10 +7,10 @@ from rest_framework import filters
 
 from categories.models import SubCategory
 from commons.utils import validate_object
-
+from .models import SubCategoryProduct
 from product_listing.models import Product, Inventory
 from product_listing.serializers import ProductSerializer, InventorySerializer
-from .serializers import SubCategoryProductListSerializer, ProductInventorySerializer, CreateProductInventorySerializer
+from .serializers import SubCategoryProductListSerializer, ProductInventorySerializer, CreateProductInventorySerializer, SubCategoryProductObectSerializer
 from .permissions import IsAllowedInventoryUpdate
 
 
@@ -191,3 +191,9 @@ class CreateProductInventoryView(CreateAPIView):
                 "status": "false",
                 "message": "Invalid data"
             }, status=400)
+
+
+class CreateProductMappingView(ListCreateAPIView):
+    permission_classes = [AllowAny,]
+    serializer_class = SubCategoryProductObectSerializer
+    queryset = SubCategoryProduct.objects.all()
