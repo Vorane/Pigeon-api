@@ -50,6 +50,12 @@ class SubCategoryProductListSerializer(ModelSerializer):
         fields = ("id", "name", "products")
 
 
+class SubCategoryProductObectSerializer(ModelSerializer):
+    class Meta:
+        model = SubCategoryProduct
+        fields = "__all__"
+
+
 class ProductInventorySerializer(ModelSerializer):
     # outlet_inventory = InventoryInlineSerializer(
     # source="product_inventory_product", many=True)
