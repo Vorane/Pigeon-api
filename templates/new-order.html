@@ -1,0 +1,36 @@
+<html>
+
+<head>
+</head>
+
+<body>
+    <div class="container" style="max-width: 360px;margin: 0 auto">
+        <div class="header">
+            <img src="http://pigeonapp.co.ke/static/media/pickup.f01c845d.png"
+                style="block-size: 8em;max-width: 360px" />
+
+        </div>
+        <div class="border" style="max-width: 360px;border-bottom: 2px #b32017 solid"> </div>
+        <div class="row">
+            <p style="font-size: 24px">
+                <h1>A new order has arrived.</h1>
+                <p>{{user}}</p>
+                <p>
+                </p>
+                <p> {{number}}</p>
+                <p> {{order.outlet}}</p>
+                <p>
+                    <a href="https://pigeon.voraneapi.com/admin/orders/order/{{order.id}}/">
+                        click here
+                    </a>
+                </p>
+        </div>
+
+        <div class="code" style="font-size: 30px;font-weight: bolder">
+            {{code}}
+        </div>
+
+    </div>
+</body>
+
+</html>
